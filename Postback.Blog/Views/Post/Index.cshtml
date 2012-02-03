@@ -31,7 +31,7 @@
 @{Html.RenderPartial("_paging", (PagingView)ViewBag.Paging);}
 
 <script type="text/javascript">
-    var disqus_shortname = 'postback-be';  
+    var disqus_shortname = '@Html.AppSetting("disqus.shortname")';  
     (function () {
         var s = document.createElement('script'); s.async = true;
         s.type = 'text/javascript';
