@@ -1,0 +1,33 @@
+﻿@{
+    Bundles.Reference("/js/lib/modernizr-1.7.js");
+    Bundles.Reference("/js/lib/jquery.validate.js");
+    Bundles.Reference("/js/lib/jquery.validate.unobtrusive.js");
+    Bundles.Reference("/js/app/admin.js");
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Manage that Content - @ViewBag.Title</title>
+    <link href="@Url.Content("~/css/admin/styles.css")" rel="stylesheet" type="text/css" />
+    @Bundles.RenderScripts()
+</head>
+<body>
+    <div class="page">
+        <header>
+            <div id="title">
+                <h1>Admin</h1>
+            </div>
+            <div id="logindisplay">
+            </div>
+            @Html.Partial("_Nav")
+        </header>
+        <section id="main">
+            @RenderBody()
+        </section>
+        <footer>
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,9 @@
+﻿@model Postback.Blog.Models.ViewModels.PagingView
+
+
+<p>
+    @foreach (var item in Model.Items)
+    { 
+        <a href="@item.Uri">@item.Label</a>
+    }
+</p>

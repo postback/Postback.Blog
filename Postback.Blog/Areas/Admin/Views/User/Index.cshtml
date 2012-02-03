@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Title = "Users";
+    Layout = "../Shared/_Layout.cshtml";
+}
+
+@Html.ActionLink("New", "edit")
+
+<table>
+@foreach(var user in Model)
+{
+    <tr>
+        <td>@user.Name</td>
+        <td>@user.Email</td>
+        <td>@Html.ActionLink("Edit","edit",new{user.Id})</td>
+        <td>@if (user.Email != HttpContext.Current.User.Identity.Name){
+                using (Html.BeginForm("delete","user",new {user.Id})){
+                    <input type="submit" value="Delete" onclick="return confirm('Are you sure?')" />
+                }
+            }</td>
+    </tr>
+}
+</table>

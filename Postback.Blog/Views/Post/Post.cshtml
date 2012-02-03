@@ -1,0 +1,36 @@
+﻿@{
+    ViewBag.Title = Model.Title;
+    Layout = "../Shared/_Layout.cshtml";
+}
+
+<section>       
+    <article>
+        <header>
+            <h1>@Model.Title</h1>
+            @{
+                var date = (DateTime)Model.Created;//Conversion is needed to be able to use the FormatToSmartTimeSpan extension method
+             }
+            <time pubdate datetime="@Model.Created">@date.ToLocalTime().FormatToSmartTimeSpan()</time>
+        </header>
+        @Html.Raw(Model.Body)
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            var disqus_shortname = 'postback-be';
+            (function () {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+        <footer>
+            <ul class="tags">
+                @foreach (var tag in Model.Tags)
+                { 
+                    <li><a href="/tag/@tag.Uri">@tag.Name</a></li>
+                }
+            </ul>
+        </footer>
+    </article>
+</section>

@@ -1,0 +1,3 @@
+﻿@model string
+
+@Html.TextArea("", (!string.IsNullOrEmpty(Model) ? Model : string.Empty), new { @class = "tinymce" })

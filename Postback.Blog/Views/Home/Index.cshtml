@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = "Posts";
+    Layout = "../Shared/_Layout.cshtml";
+}
+
+@Html.ActionLink("New", "edit")
+
+<section>
+@foreach(var post in Model)
+{
+    <article>
+        <header>
+            <h1>@post.Title</h1>
+            @{
+               var date = (DateTime)post.Created;//Conversion is needed to be able to use the FormatToSmartTimeSpan extension method
+             }
+            <p><time pubdate datetime="@post.Created">@date.ToLocalTime().FormatToSmartTimeSpan()</time></p>
+        </header>
+        @post.Body
+        <footer>
+            <ul>
+                @foreach (var tag in post.Tags)
+                { 
+                    <li>@tag.Name</li>
+                }
+            </ul>
+        </footer>
+    </article>
+}
+</section>
+
+@{Html.RenderPartial("_paging", (PagingView)ViewBag.Paging);}

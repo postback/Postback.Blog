@@ -1,0 +1,14 @@
+﻿@{
+    ViewBag.Title = "Setup your blog. Create the first user.";
+    Layout = "../Shared/_Layout.cshtml";
+}
+
+@model Postback.Blog.ViewModels.InitialUserModel
+
+@using (Html.BeginForm("index","setup"))
+{
+    @Html.EditorForModel()
+    <p>
+        <input type="submit" value="Save" />
+    </p>
+}

@@ -1,0 +1,126 @@
+﻿/* tiny reset */
+h1, h2, h3, h4, h5, p, li, ul {
+    margin: 0px;
+    padding: 0px;
+    list-style-type: none;
+}
+
+body{
+    margin: 0 auto;
+    width: 900px;
+    font-family: Georgia, Serif;
+    color: #333;
+    background: #fff;
+    font-size: 16px;
+}
+
+a {
+    color: #990000;
+    text-decoration: none;
+}
+
+#main {
+    font-size: 16px;
+    line-height: 24px;
+}
+
+#accouncement{
+    margin-top: 6px;
+    border-bottom: 1px solid #444;
+    color: #444;
+    padding: 6px 12px;
+    text-align: center;
+}
+
+#title {
+    padding: 36px 0;
+    font-size: 54px;
+    color: #333;
+}
+
+#title a {
+    color: #333;
+}
+
+h2, article header h1 {
+    font-size: 54px;
+    line-height: 54px;
+}
+
+#title a:hover, article h2 a:hover {
+    color: #990000;
+}
+
+nav {
+    background: #fff;
+    border-right: 1px solid #666;
+    margin-left: -148px;
+    padding: 36px 12px;
+    position: fixed;
+    top: 0;
+    width: 100px;
+}
+
+nav a {
+    color: #666;
+}
+
+article header {
+   border-left: #666 solid 1px;
+   margin-left: -24px;
+   padding-left: 24px;
+}
+
+article p {
+    margin: 0 0 24px;
+}
+
+article p a {
+    text-decoration: underline;
+}
+
+section {
+    margin: 24px 0;
+}
+
+article {
+    margin: 0 0 36px 0;
+    position: relative;
+}
+
+article img{
+    float: right !important;
+    padding: 0 0 6px 6px !important;
+}
+
+time {
+    position: absolute;
+    left: 900px;
+    color: #666;
+    font-size: 12px;
+    border-left: #666 solid 1px;
+    padding-left: 12px;
+    width: 120px;
+    top: 0px;
+}
+
+footer {
+    position: absolute;
+    top: 24px;
+    left: 900px;
+    border-left: #666 solid 1px;
+    padding-left: 12px;
+    width: 120px;
+}
+
+.tags {
+    font-size: 12px;
+}
+
+.tags li {
+    display: inline;
+}
+
+footer a {
+    text-decoration: underline;
+}

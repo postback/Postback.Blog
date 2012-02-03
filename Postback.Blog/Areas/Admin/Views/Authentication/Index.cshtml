@@ -1,0 +1,14 @@
+﻿@{
+    ViewBag.Title = "Please sign in";
+    Layout = "../Shared/_Layout.cshtml";
+}
+
+@model Postback.Blog.Areas.Admin.Models.AuthenticationModel
+
+@using (Html.BeginForm("index","authentication"))
+{
+    @Html.EditorForModel()
+    <p>
+        <input type="submit" value="Sign-in" /> @Html.ActionLink("Forgot your password?", "forgotpassword");
+    </p>
+}

@@ -1,0 +1,46 @@
+﻿@{
+    Bundles.Reference("js/lib/modernizr-1.7.js");
+    Bundles.Reference("js/lib/jquery.validate.js");
+    Bundles.Reference("js/lib/jquery.validate.unobtrusive.js");
+    Bundles.Reference("js/app/core.js");
+    Bundles.Reference("~/css/styles.css");
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title - Interrupted: Vincent Mouton's Blog over muziek en nog andere dingen</title>
+    @Bundles.RenderStylesheets()
+
+    <link rel="alternate" type="application/rss+xml" title="Interrupted: postback.be RSS Feed" href="http://postback.be/rss/" />
+
+    @Bundles.RenderScripts()
+
+    <script type="text/javascript" src="http://use.typekit.com/glf6hko.js"></script>
+    <script type="text/javascript">    try { Typekit.load(); } catch (e) { }</script>
+</head>
+<body>
+    <div class="page">
+        <header>
+            <div id="title" class="tk-vollkorn"><a href="/">Postback Blog</a></div>
+
+            <section id="accouncement">
+                Deze blog wordt van de grond terug opgebouwd. Dus het ziet er niet uit, is onvolledig en werkt amper. Maar we komen er wel. Ooit.
+            </section>
+
+            <div id="logindisplay"></div>
+            <nav>
+                <ul id="menu">
+                    <li><a href="/">Homepagina</a></li>
+                </ul>
+            </nav>
+        </header>
+        <section id="main">
+            @RenderBody()
+        </section>
+        <footer>
+        </footer>
+    </div>
+</body>
+</html>
