@@ -15,7 +15,7 @@ namespace Postback.Blog.App.Data
 
         public MongoSession()
         {
-            connectionString = ConfigurationManager.AppSettings["MONGOHQ_URL"];
+            connectionString = ConfigurationManager.AppSettings["mongo.db"];
         }
 
         public void Delete<T>(System.Linq.Expressions.Expression<Func<T, bool>> expression) where T : class, new()
