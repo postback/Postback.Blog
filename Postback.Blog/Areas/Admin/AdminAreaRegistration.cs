@@ -17,7 +17,7 @@ namespace Postback.Blog.Areas.Admin
             context.MapRoute(
                 "Admin_default",
                 "admin/{controller}/{action}/{id}",
-                new { action = "Index", id = UrlParameter.Optional }
+                new { controller="Dashboard", action = "Index", id = UrlParameter.Optional }
             );
         }
     }

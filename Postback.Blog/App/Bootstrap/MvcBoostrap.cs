@@ -23,7 +23,7 @@ namespace Postback.Blog.App.Bootstrap
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
-               "Old BLog", // Route name
+               "Old Blog", // Route name
                "blog/{*url}", // URL with parameters
                new { controller = "Error", action = "Index" }, // Parameter defaults
                namespaces: new string[] { "Postback.Blog.Controllers" }
