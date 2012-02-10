@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -32,6 +33,7 @@ namespace Postback.Blog.Controllers
 
         public ActionResult Tag(string tag, int? page)
         {
+            ViewBag.Tag = tag;
             ViewBag.Paging = new PagingView("post", "tag")
             {
                 ItemCount = session.All<Post>().Count(),
@@ -39,7 +41,10 @@ namespace Postback.Blog.Controllers
                 ItemsOnOnePage = PAGE_SIZE,
             };
 
-            return View(session.All<Post>().Where(p => p.Tags.Select(t => t.Uri).Contains   (tag)).OrderByDescending(p => p.Created).Skip(page.HasValue ? (page.Value - 1) * PAGE_SIZE : 0).Take(PAGE_SIZE).ToList());
+            var predicate = PredicateBuilder.True<Post>();
+            predicate.AndAlso(p => p.Tags.Select(t => t.Uri).Contains(tag));
+
+            return View(session.All<Post>().Where(predicate).OrderByDescending(p => p.Created).Skip(page.HasValue ? (page.Value - 1) * PAGE_SIZE : 0).Take(PAGE_SIZE).ToList());
         }
 
         public ActionResult Post(string slug)
