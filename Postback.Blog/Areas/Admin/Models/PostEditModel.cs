@@ -7,6 +7,11 @@ namespace Postback.Blog.Areas.Admin.Models
 {
     public class PostEditModel
     {
+        public PostEditModel()
+        {
+            PublishFrom = DateTime.Now;
+        }
+
         public ObjectId Id { get; set; }
 
         [Required]

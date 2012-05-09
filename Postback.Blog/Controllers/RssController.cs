@@ -24,7 +24,7 @@ namespace Postback.Blog.Controllers
             feed.Items = session.All<Post>().Where(
                 p => p.Active && (p.PublishFrom == null || p.PublishFrom <= DateTime.Now)).OrderByDescending(
                     p => p.Created).Take(PAGE_SIZE)
-                .Select(p => new SyndicationItem(p.Title, p.Body, new Uri(Request.Url,"/read/" + p.Uri)){PublishDate = p.Created});
+                .Select(p => new SyndicationItem(p.Title, p.Body, new Uri("http://" + Request.Url.Host + "/read/" + p.Uri)){PublishDate = p.Created});
             return new RssActionResult() { Feed = feed };
         }
 

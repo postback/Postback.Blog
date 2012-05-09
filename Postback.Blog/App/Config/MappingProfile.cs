@@ -1,5 +1,4 @@
 ﻿using Postback.Blog.Models;
-using Postback.Blog.ViewModels;
 
 namespace Postback.Blog.App.Config
 {
