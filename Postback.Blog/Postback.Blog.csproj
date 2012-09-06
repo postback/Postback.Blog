@@ -74,16 +74,24 @@
     <Reference Include="Microsoft.Web.Mvc">
       <HintPath>..\packages\Microsoft.Web.Mvc\lib\Microsoft.Web.Mvc.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.4.0.7\lib\net40\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.4.5.7\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Norm">
-      <HintPath>..\packages\NoRM.0.9.8\lib\Norm.dll</HintPath>
+    <Reference Include="NLog">
+      <HintPath>..\packages\NLog.2.0.0.2000\lib\net40\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="Raven.Abstractions">
+      <HintPath>..\packages\RavenDB.Client.1.0.972\lib\net40\Raven.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Raven.Client.Lightweight">
+      <HintPath>..\packages\RavenDB.Client.1.0.972\lib\net40\Raven.Client.Lightweight.dll</HintPath>
     </Reference>
     <Reference Include="StructureMap, Version=2.6.3.0, Culture=neutral, PublicKeyToken=e60ad81abae3c223, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\structuremap.2.6.3\lib\StructureMap.dll</HintPath>
     </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
@@ -120,6 +128,8 @@
     <Compile Include="App\Bootstrap\MvcBoostrap.cs" />
     <Compile Include="App\Config\MappingProfile.cs" />
     <Compile Include="App\Data\PredicateBuilder.cs" />
+    <Compile Include="App\Data\RavenRegistry.cs" />
+    <Compile Include="App\Data\RavenSession.cs" />
     <Compile Include="App\Mapping\MappingProfile.cs" />
     <Compile Include="App\DependencyResolution\AppRegistry.cs" />
     <Compile Include="App\DependencyResolution\DependencyRegistrar.cs" />
@@ -143,7 +153,6 @@
     <Compile Include="App\Services\ICryptographer.cs" />
     <Compile Include="App\Data\IPersistenceSession.cs" />
     <Compile Include="App\Bootstrap\IStartUpTask.cs" />
-    <Compile Include="App\Data\MongoSession.cs" />
     <Compile Include="App\Services\IHandler.cs" />
     <Compile Include="App\Services\IMessagingService.cs" />
     <Compile Include="App\Services\SimpleMessagingService.cs" />
@@ -791,7 +800,9 @@
     <Content Include="Views\Post\Post.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="web.config" />
+    <Content Include="web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Home\Index.cshtml" />

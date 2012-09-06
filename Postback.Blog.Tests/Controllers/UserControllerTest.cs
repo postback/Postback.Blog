@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Security.Principal;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Moq;
-using Norm;
 using NUnit.Framework;
 using Postback.Blog.App.Data;
 using Postback.Blog.Areas.Admin.Controllers;
 using Postback.Blog.Areas.Admin.Models;
-using Postback.Blog.Controllers;
 using Postback.Blog.Models;
 
 namespace Postback.Blog.Tests.Controllers
@@ -34,7 +31,7 @@ namespace Postback.Blog.Tests.Controllers
         [Test]
         public void DeleteWillNotDeleteYourself()
         {
-            var userid = new ObjectId("abc123");
+            var userid = "abc123";
             var email = "john@doe.com";
             var user = new User {Id = userid, Email=email};
 
@@ -61,7 +58,7 @@ namespace Postback.Blog.Tests.Controllers
         [Test]
         public void DeleteWillDeleteOtherUser()
         {
-            var userid = new ObjectId("abc123");
+            var userid = "abc123";
             var email = "john@doe.com";
             var user = new User { Id = userid, Email = "polle@pap.com" };
 

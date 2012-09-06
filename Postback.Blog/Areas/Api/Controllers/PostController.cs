@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
-using Norm;
+
 using Postback.Blog.App.Data;
 using Postback.Blog.Models;
 
@@ -18,7 +18,7 @@ namespace Postback.Blog.Areas.Api.Controllers
         public JsonResult IsUnique(string title, string id)
         {
             var collection = session.All<Post>().AsQueryable().Where(u => u.Title == title);
-            if (collection.Count() == 0 || collection.First().Id == new ObjectId(id))
+            if (collection.Count() == 0 || collection.First().Id == id)
             {
                 return Json(true, JsonRequestBehavior.AllowGet);
             }

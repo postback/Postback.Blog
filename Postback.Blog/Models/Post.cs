@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
+
 namespace Postback.Blog.Models
 {
     public class Post : Entity

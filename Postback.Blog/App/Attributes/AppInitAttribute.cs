@@ -1,7 +1,7 @@
 ﻿using System.Configuration;
 using System.Linq;
 using System.Web.Mvc;
-using Norm;
+
 using Postback.Blog.App.Data;
 using Postback.Blog.Models;
 using StructureMap;

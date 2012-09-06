@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
-using Norm;
+
 using Postback.Blog.App.Data;
 using Postback.Blog.Areas.Admin.Models;
 using Postback.Blog.Models;
@@ -30,7 +30,7 @@ namespace Postback.Blog.Areas.Admin.Controllers
             return View(posts);
         }
 
-        public ActionResult Edit(ObjectId id)
+        public ActionResult Edit(string id)
         {
             var post = session.Single<Post>(u => u.Id == id);
             if (post != null)
@@ -55,7 +55,7 @@ namespace Postback.Blog.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult Delete(ObjectId id)
+        public ActionResult Delete(string id)
         {
             var post = session.Single<Post>(u => u.Id == id);
             if (post != null)

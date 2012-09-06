@@ -1,13 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 using DataAnnotationsExtensions;
-using Norm;
 
 namespace Postback.Blog.Areas.Admin.Models
 {
     public class UserEditModel
     {
-        public ObjectId Id { get; set; }
+        public string Id { get; set; }
 
         [Required]
         public string Name { get; set; }

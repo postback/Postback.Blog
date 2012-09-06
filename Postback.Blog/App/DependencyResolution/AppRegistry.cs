@@ -8,9 +8,6 @@ namespace Postback.Blog.App.DependencyResolution
     {
         public AppRegistry()
         {
-            For<IPersistenceSession>()
-                .Use<MongoSession>();
-
             For<IAuth>()
                 .Use<FormsAuthWrapper>();
 

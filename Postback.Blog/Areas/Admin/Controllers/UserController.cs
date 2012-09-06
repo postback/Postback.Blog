@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
-using Norm;
+
 using Postback.Blog.App.Data;
-using Postback.Blog.App.Services;
 using Postback.Blog.Areas.Admin.Models;
 using Postback.Blog.Models;
 
@@ -31,7 +29,7 @@ namespace Postback.Blog.Areas.Admin.Controllers
             return View(users);
         }
 
-        public ActionResult Edit(ObjectId id)
+        public ActionResult Edit(string id)
         {
             var user = session.Single<User>(u => u.Id == id);
             if(user != null)
@@ -56,7 +54,7 @@ namespace Postback.Blog.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult Delete(ObjectId id)
+        public ActionResult Delete(string id)
         {
             var user = session.Single<User>(u => u.Id == id);
             if(user != null && user.Email != HttpContext.User.Identity.Name)

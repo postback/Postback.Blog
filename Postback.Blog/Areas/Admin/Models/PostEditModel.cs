@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
-using Norm;
+
 
 namespace Postback.Blog.Areas.Admin.Models
 {
@@ -12,7 +12,7 @@ namespace Postback.Blog.Areas.Admin.Models
             PublishFrom = DateTime.Now;
         }
 
-        public ObjectId Id { get; set; }
+        public string Id { get; set; }
 
         [Required]
         [Remote("isunique", "post", "api", AdditionalFields = "Id")]
