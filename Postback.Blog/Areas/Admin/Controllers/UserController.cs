@@ -23,10 +23,11 @@ namespace Postback.Blog.Areas.Admin.Controllers
             var users = this.session.All<User>()
                 .Skip(page.HasValue ? ((page.Value - 1)*Settings.PageSize):0)
                 .Take(Settings.PageSize)
-                .Select(u => Mapper.Map<User,UserViewModel>(u))
                 .ToList();
 
-            return View(users);
+            var models = users.Select(Mapper.Map<User, UserViewModel>);
+
+            return View(models);
         }
 
         public ActionResult Edit(string id)

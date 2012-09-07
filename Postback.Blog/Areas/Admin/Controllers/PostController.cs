@@ -23,11 +23,12 @@ namespace Postback.Blog.Areas.Admin.Controllers
             var posts = this.session.All<Post>()
                 .OrderByDescending(p => p.Created)
                 .Skip(page.HasValue ? ((page.Value - 1) * Settings.PageSize) : 0)
-                .Take(Settings.PageSize)
-                .Select(u => Mapper.Map<Post, PostViewModel>(u))
+                .Take(Settings.PageSize).ToList();
+
+            var models = posts.Select(Mapper.Map<Post, PostViewModel>)
                 .ToList();
 
-            return View(posts);
+            return View(models);
         }
 
         public ActionResult Edit(string id)
