@@ -25,7 +25,7 @@ namespace Postback.Blog.Areas.Admin.Controllers
                 .Take(Settings.PageSize)
                 .ToList();
 
-            var models = users.Select(Mapper.Map<User, UserViewModel>);
+            var models = users.Select(Mapper.Map<User, UserViewModel>).ToList();
 
             return View(models);
         }
