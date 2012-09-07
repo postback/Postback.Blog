@@ -25,7 +25,7 @@ namespace Postback.Blog.App.Data
         {
             var documentStore = new Raven.Client.Document.DocumentStore
             {
-                ConnectionStringName = "RAVENHQ_CONNECTION_STRING"
+                ConnectionStringName = "RavenDB"
             };
 
             documentStore.Initialize();
