@@ -25,6 +25,7 @@ namespace Postback.Blog.Tests.Data
         protected override void ModifyStore(EmbeddableDocumentStore documentStore)
         {
             documentStore.RegisterListener(new AuditableEntityListener(GetCurrentUser));
+            documentStore.Conventions.DocumentKeyGenerator = a => BlogGuid.NewGuid().ToString();
         }
 
         [SetUp]
@@ -116,6 +117,9 @@ namespace Postback.Blog.Tests.Data
         public void CanSave()
         {
             //Arrange
+            var guid = Guid.NewGuid();
+            BlogGuid.NewGuid = () => { return guid; };
+
             var session = Store.OpenSession();
             var ravenSession = new RavenSession(session);
 
@@ -132,12 +136,15 @@ namespace Postback.Blog.Tests.Data
             //Assert
             result.ShouldNotBeNull();
             result.Id.ShouldNotBeEmpty();
+            result.Id.ShouldEqual(guid.ToString());
             var item = ravenSession.FindOne<RepoEntity>(r => r.Id == result.Id);
             item.Name.ShouldEqual("Pol");
             item.Created.ShouldNotBeNull();
             item.Created.ShouldEqual(new DateTime(2012, 1, 2, 3, 4, 5));
             clock.VerifyAllExpectations();
             locator.VerifyAllExpectations();
+
+            BlogGuid.NewGuid = () => Guid.NewGuid();
         }
 
         [Test]

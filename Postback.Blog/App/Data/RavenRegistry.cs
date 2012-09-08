@@ -31,6 +31,7 @@ namespace Postback.Blog.App.Data
                                         ConnectionStringName = "RavenDB"
                                     };
 
+            documentStore.Conventions.DocumentKeyGenerator = a => BlogGuid.NewGuid().ToString();
             documentStore.RegisterListener(new AuditableEntityListener(() => { return ServiceLocator.Current.GetInstance<ISecurityContext>().CurrentUser.Identity.Name; }));
 
             documentStore.Initialize();
