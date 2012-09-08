@@ -67,6 +67,9 @@
       <HintPath>..\packages\DataAnnotationsExtensions.MVC3.1.1.0.0\lib\NETFramework40\DataAnnotationsExtensions.ClientValidation.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Practices.ServiceLocation">
+      <HintPath>..\packages\CommonServiceLocator.1.0\lib\NET35\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
@@ -123,13 +126,17 @@
   <ItemGroup>
     <Compile Include="App\Attributes\AppInitAttribute.cs" />
     <Compile Include="App\Bootstrap\AutoMapperBootstrap.cs" />
+    <Compile Include="App\Bootstrap\BaseHttpModule.cs" />
     <Compile Include="App\Bootstrap\CassetteConfiguration.cs" />
+    <Compile Include="App\Bootstrap\ServiceLocatorModule.cs" />
     <Compile Include="App\Bootstrap\ValidationBoostrap.cs" />
     <Compile Include="App\Bootstrap\MvcBoostrap.cs" />
     <Compile Include="App\Config\MappingProfile.cs" />
+    <Compile Include="App\Data\AuditableEntityListener.cs" />
     <Compile Include="App\Data\PredicateBuilder.cs" />
     <Compile Include="App\Data\RavenRegistry.cs" />
     <Compile Include="App\Data\RavenSession.cs" />
+    <Compile Include="App\DependencyResolution\StructureMapServiceLocator.cs" />
     <Compile Include="App\Mapping\MappingProfile.cs" />
     <Compile Include="App\DependencyResolution\AppRegistry.cs" />
     <Compile Include="App\DependencyResolution\DependencyRegistrar.cs" />
@@ -188,6 +195,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="ISystemClock.cs" />
     <Compile Include="Models\AuditedEntity.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Comment.cs" />
@@ -200,6 +208,7 @@
     <Compile Include="Models\ViewModels\PagingView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs" />
+    <Compile Include="SystemClock.cs" />
     <Compile Include="SystemTime.cs" />
     <Content Include="js\app\admin.js" />
     <Content Include="js\app\core.js" />

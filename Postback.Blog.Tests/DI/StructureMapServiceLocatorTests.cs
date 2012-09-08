@@ -2,7 +2,9 @@
 using System.Linq;
 using NBehave.Spec.NUnit;
 using NUnit.Framework;
+using Postback.Blog.App.Data;
 using Postback.Blog.App.DependencyResolution;
+using Raven.Client.Embedded;
 using StructureMap;
 using StructureMap.Configuration.DSL;
 
@@ -11,6 +13,34 @@ namespace Postback.Blog.Tests.DI
     [TestFixture]
     public class StructureMapServiceLocatorTests
     {
+        private EmbeddableDocumentStore Store { get; set; }
+
+        [TestFixtureSetUp]
+        public void Setup()
+        {
+            Store = new EmbeddableDocumentStore
+            {
+                Configuration =
+                {
+                    RunInUnreliableYetFastModeThatIsNotSuitableForProduction
+                        = true,
+                    DefaultStorageTypeName = "munin",
+                    RunInMemory = true,
+                },
+                UseEmbeddedHttpServer = true,
+            };
+            RavenRegistry.InitDocumentStore = () =>
+                                                  {
+                                                      return Store;
+                                                  };
+        }
+
+        [TestFixtureTearDown]
+        public void TearDown()
+        {
+            Store.Dispose();
+        }
+
         [Test]
         public void RegistersDependencies()
         {
@@ -35,7 +65,7 @@ namespace Postback.Blog.Tests.DI
         public void GetsAssemblyPrefix()
         {
             var prefix = StructureMapServiceLocator.GetAssembliesPrefix(this.GetType());
-            prefix.ShouldEqual("Marlon.NFratello.Tests");
+            prefix.ShouldEqual("Postback.Blog");
         }
 
         [Test]
@@ -57,7 +87,7 @@ namespace Postback.Blog.Tests.DI
             locator.EnsureDependenciesRegistered();
             var impl = locator.GetInstanceNamesFor<ISimpleInterface>();
             impl.Count().ShouldEqual(1);
-            impl.First().ShouldEqual("Marlon.NFratello.Tests.DependencyInjection.StructureMap.SimpleInterface, Marlon.NFratello.Tests.DependencyInjection.StructureMap, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
+            impl.First().ShouldEqual("Postback.Blog.Tests.DI.SimpleInterface, Postback.Blog.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
             locator.Reset();
         }
 

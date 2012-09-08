@@ -56,7 +56,6 @@ namespace Postback.Blog.App.DependencyResolution
         {
             string name = type.Assembly.GetName().Name;
             name = name.Substring(0, name.LastIndexOf("."));
-            name = name.Substring(0, name.LastIndexOf("."));
             return name;
         }
 
@@ -65,7 +64,7 @@ namespace Postback.Blog.App.DependencyResolution
             if (!dependenciesRegistered)
             {
                 lock (sync)
-                {
+                {   
                     if (!dependenciesRegistered)
                     {
                         RegisterDependencies();

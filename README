@@ -12,3 +12,4 @@ Things to to
 - Actually: publish date is created, when it's not being set
 - Vertical line next to post should be better alligned
 - Convert dates to UTC and parse them back on the front-end
+- Use ServiceLocator
