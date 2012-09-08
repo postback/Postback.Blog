@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Web;
 using Raven.Client;
 
 namespace Postback.Blog.App.Data
@@ -51,10 +49,12 @@ namespace Postback.Blog.App.Data
             return documentSession.Query<T>().AsQueryable();
         }
 
-        public void Add<T>(T item) where T : class, new()
+        public T Add<T>(T item) where T : class, new()
         {
             documentSession.Store(item);
             documentSession.SaveChanges();
+
+            return item;
         }
 
         public void Save<T>(T item) where T : class, new()
