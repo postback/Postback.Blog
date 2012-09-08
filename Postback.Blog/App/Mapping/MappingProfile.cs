@@ -29,7 +29,8 @@ namespace Postback.Blog.App.Mapping
                 .ForMember(u => u.PasswordConfirm, o => o.Ignore());
 
             CreateMap<Post, PostViewModel>()
-                .ForMember(p => p.Created, o => o.AddFormatter<ReadableDateFormatter>());
+                .ForMember(p => p.Created, o => o.AddFormatter<ReadableDateFormatter>())
+                .ForMember(p => p.PublishFrom, o => o.AddFormatter<ReadableDateFormatter>());
 
             CreateMap<PostEditModel, Post>()
                 .ForMember(p => p.Category, o => o.Ignore())

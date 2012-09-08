@@ -4,7 +4,9 @@
     {
         public string Title { get; set; }
         public string Created { get; set; }
+        public string PublishFrom { get; set; }
         public string Id { get; set; }
         public string Uri { get; set; }
+        public bool Active { get; set; }
     }
 }

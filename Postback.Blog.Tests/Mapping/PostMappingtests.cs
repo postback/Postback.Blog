@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
+using NBehave.Spec.NUnit;
 using NUnit.Framework;
 using Postback.Blog.Areas.Admin.Models;
 using Postback.Blog.Models;
@@ -31,6 +33,20 @@ namespace Postback.Blog.Tests.Mapping
             Assert.That(post.Tags, Has.Count.EqualTo(4));
             Assert.That(post.Tags[0].Name, Is.EqualTo("music"));
             Assert.That(post.Tags[2].Name, Is.EqualTo("multiple words"));
+        }
+
+        [Test]
+        public void MapsToViewModelWithSmartDates()
+        {
+            var post = new Post { Id = "some-id", Uri = "some-uri", Title = "Post title", Active = true, Created = new DateTime(2009, 8, 7, 6, 5, 4, DateTimeKind.Local), PublishFrom = new DateTime(2009, 1, 2, 3, 4, 5, DateTimeKind.Local) };
+            var model = Mapper.Map<Post, PostViewModel >(post);
+
+            model.Active.ShouldBeTrue();
+            model.Title.ShouldEqual("Post title");
+            model.Id.ShouldEqual(post.Id);
+            model.Uri.ShouldEqual(post.Uri);
+            model.Created.ShouldEqual("07/08/2009 06:05");
+            model.PublishFrom.ShouldEqual("02/01/2009 03:04");
         }
     }
 }
