@@ -33,7 +33,6 @@ namespace Postback.Blog.App.Mapping
 
             CreateMap<PostEditModel, Post>()
                 .ForMember(p => p.Category, o => o.Ignore())
-                .ForMember(p => p.Created, o => o.UseValue(DateTime.Now))
                 .ForMember(p => p.Author, o => o.Ignore())
                 .ForMember(p => p.Uri, o => o.Ignore())
                 .ForMember(p => p.Comments, o => o.Ignore())
@@ -42,9 +41,7 @@ namespace Postback.Blog.App.Mapping
 
             CreateMap<Post, PostEditModel>()
                 .ForMember(m => m.Tags,
-                           o => o.MapFrom(s => s.Tags.Select(t => t.Name).Aggregate<string>((a, b) => a + "," + b)));
+                           o => o.MapFrom(s => s.Tags.Select(t => t.Name).Aggregate((a, b) => a + "," + b)));
         }
     }
-
-    
 }

@@ -29,5 +29,8 @@ namespace Postback.Blog.Areas.Admin.Models
 
         [DataType(DataType.DateTime)]
         public DateTime PublishFrom { get; set; }
+
+        [HiddenInput]
+        public DateTime Created { get; set; }
     }
 }

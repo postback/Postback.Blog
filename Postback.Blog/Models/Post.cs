@@ -17,7 +17,6 @@ namespace Postback.Blog.Models
         {
             Uri = title.ToUri();
             Title = title;
-            PublishFrom = DateTime.MinValue;
         }
 
         public string Title { get; set; }
