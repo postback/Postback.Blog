@@ -4,7 +4,6 @@ using System.Linq.Expressions;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using Moq;
 using MvcContrib.TestHelper;
 using NUnit.Framework;
 using Postback.Blog.App.Data;
@@ -12,6 +11,7 @@ using Postback.Blog.App.Services;
 using Postback.Blog.Areas.Admin.Controllers;
 using Postback.Blog.Models;
 using Postback.Blog.Areas.Admin.Models;
+using Rhino.Mocks;
 
 namespace Postback.Blog.Tests.Controllers
 {
@@ -37,29 +37,30 @@ namespace Postback.Blog.Tests.Controllers
             var salt = "salt";
             var pass = "pass";
 
-            var user = new Mock<User>();
-            user.Object.Email = email;
-            user.Object.PasswordSalt = salt;
-            user.Object.PasswordHashed = "hashedpassword";
+            var user = M<User>();
+            user.Email = email;
+            user.PasswordSalt = salt;
+            user.PasswordHashed = "hashedpassword";
             
-            var crypto = new Mock<ICryptographer>();
-            crypto.Setup(c => c.GetPasswordHash(pass, salt)).Returns("hashedpassword");
+            var crypto = M<ICryptographer>();
+            crypto.Expect(c => c.GetPasswordHash(pass, salt)).Return("hashedpassword").Repeat.Once();
 
-            var session = new Mock<IPersistenceSession>();
-            session.Setup(s => s.Single<User>(It.IsAny<Expression<Func<User, bool>>>())).Returns(user.Object);
+            var session = M<IPersistenceSession>();
+            session.Expect(s => s.Single<User>(Arg<Expression<Func<User, bool>>>.Is.Anything)).Return(user).Repeat.Once();
 
-            var auth = new Mock<IAuth>();
+            var auth = M<IAuth>();
+            auth.Expect(a => a.DoAuth(email, true)).Repeat.Once();
 
-            var request = new Mock<HttpRequestBase>();
-            var context = new Mock<HttpContextBase>();
+            var request = M<HttpRequestBase>();
+            var context = M<HttpContextBase>();
 
-            request.Setup(c => c.QueryString).Returns(new NameValueCollection());
-            context.Setup(c => c.Request).Returns(request.Object);
+            request.Expect(c => c.QueryString).Return(new NameValueCollection());
+            context.Expect(c => c.Request).Return(request);
 
-            var controller = new AuthenticationController(crypto.Object, session.Object,auth.Object,M<IMessagingService>());
-            controller.ControllerContext = new ControllerContext(context.Object, new RouteData(), controller);
+            var controller = new AuthenticationController(crypto, session,auth,M<IMessagingService>());
+            controller.ControllerContext = new ControllerContext(context, new RouteData(), controller);
             
-            var model = Mock.Of<AuthenticationModel>();
+            var model = M<AuthenticationModel>();
             model.Email = email;
             model.Password = pass;
             
@@ -67,40 +68,40 @@ namespace Postback.Blog.Tests.Controllers
 
             result.AssertActionRedirect().ToController("dashboard").ToAction("index");
 
-            session.Verify(s => s.Single<User>(It.IsAny<Expression<Func<User, bool>>>()), Times.Once());
-            crypto.Verify(c => c.GetPasswordHash(pass, salt), Times.Once());
-            auth.Verify(a => a.DoAuth(email, true), Times.Once());
+            session.VerifyAllExpectations();
+            crypto.VerifyAllExpectations();
+            auth.VerifyAllExpectations();
 
         }
 
         [Test]
         public void IndexActionAuthenticatesRedirectsToQueryStringParameterWhenAuthenticationModelIsValid()
         {
-            var user = new Mock<User>();
-            user.Object.Email = string.Empty;
-            user.Object.PasswordSalt = string.Empty;
-            user.Object.PasswordHashed = "hashedpassword";
+            var user = M<User>();
+            user.Email = string.Empty;
+            user.PasswordSalt = string.Empty;
+            user.PasswordHashed = "hashedpassword";
 
-            var crypto = new Mock<ICryptographer>();
-            crypto.Setup(c => c.GetPasswordHash(It.IsAny<string>(), It.IsAny<string>())).Returns("hashedpassword");
+            var crypto = M<ICryptographer>();
+            crypto.Expect(c => c.GetPasswordHash(Arg<string>.Is.Anything, (Arg<string>.Is.Anything))).Return("hashedpassword");
 
-            var session = new Mock<IPersistenceSession>();
-            session.Setup(s => s.Single<User>(It.IsAny<Expression<Func<User, bool>>>())).Returns(user.Object);
+            var session = M<IPersistenceSession>();
+            session.Expect(s => s.Single<User>(Arg<Expression<Func<User, bool>>>.Is.Anything)).Return(user);
 
-            var auth = new Mock<IAuth>();
+            var auth = M<IAuth>();
 
-            var request = new Mock<HttpRequestBase>();
-            var context = new Mock<HttpContextBase>();
+            var request = M<HttpRequestBase>();
+            var context = M<HttpContextBase>();
 
             var qstrings = new NameValueCollection();
             qstrings.Add("ReturnUrl", "/somepagetoredirecto");
-            request.Setup(c => c.QueryString).Returns(qstrings);
-            context.Setup(c => c.Request).Returns(request.Object);
+            request.Expect(c => c.QueryString).Return(qstrings);
+            context.Expect(c => c.Request).Return(request);
 
-            var controller = new AuthenticationController(crypto.Object, session.Object, auth.Object, M<IMessagingService>());
-            controller.ControllerContext = new ControllerContext(context.Object, new RouteData(), controller);
+            var controller = new AuthenticationController(crypto, session, auth, M<IMessagingService>());
+            controller.ControllerContext = new ControllerContext(context, new RouteData(), controller);
 
-            var model = Mock.Of<AuthenticationModel>();
+            var model = M<AuthenticationModel>();
             model.Email = "e";
             model.Password = "s";
 
@@ -112,10 +113,10 @@ namespace Postback.Blog.Tests.Controllers
         }
 
         [Test]
-        public void IndexActionReturnsToViewWhenAuthenticationModelIsInValid()
+        public void IndexActionReturnToViewWhenAuthenticationModelIsInValid()
         {
             var controller = new AuthenticationController(M<ICryptographer>(), M<IPersistenceSession>(), M<IAuth>(), M<IMessagingService>());
-            var result = controller.Index(Mock.Of<AuthenticationModel>());
+            var result = controller.Index(M<AuthenticationModel>());
 
             var viewresult = result.AssertViewRendered();
             Assert.That(viewresult.ViewData.Model, Is.Not.Null);

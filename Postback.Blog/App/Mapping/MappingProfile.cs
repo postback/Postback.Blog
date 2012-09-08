@@ -29,11 +29,13 @@ namespace Postback.Blog.App.Mapping
                 .ForMember(u => u.PasswordConfirm, o => o.Ignore());
 
             CreateMap<Post, PostViewModel>()
-                .ForMember(p => p.Created, o => o.AddFormatter<ReadableDateFormatter>());
+                .ForMember(p => p.Created, o => o.AddFormatter<ReadableDateFormatter>())
+                .ForMember(p => p.PublishFrom, o => o.AddFormatter<ReadableDateFormatter>());
 
             CreateMap<PostEditModel, Post>()
                 .ForMember(p => p.Category, o => o.Ignore())
-                .ForMember(p => p.Author, o => o.Ignore())
+                .ForMember(p => p.CreatedBy, o => o.Ignore())
+                .ForMember(p => p.Created, o => o.Ignore())
                 .ForMember(p => p.Uri, o => o.Ignore())
                 .ForMember(p => p.Comments, o => o.Ignore())
                 .ForMember(p => p.Tags, o => o.ResolveUsing<TagResolver>())

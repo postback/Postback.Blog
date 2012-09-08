@@ -1,4 +1,5 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
 using Raven.Client;
 using StructureMap.Configuration.DSL;
 
@@ -21,15 +22,15 @@ namespace Postback.Blog.App.Data
                 });
         }
 
-        public IDocumentStore InitDocumentStore()
-        {
-            var documentStore = new Raven.Client.Document.DocumentStore
-            {
-                ConnectionStringName = "RavenDB"
-            };
+        public static Func<IDocumentStore> InitDocumentStore = () =>
+                                                    {
+                                                        var documentStore = new Raven.Client.Document.DocumentStore
+                                                                                {
+                                                                                    ConnectionStringName = "RavenDB"
+                                                                                };
 
-            documentStore.Initialize();
-            return documentStore;
-        }
+                                                        documentStore.Initialize();
+                                                        return documentStore;
+                                                    };
     }
 }

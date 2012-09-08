@@ -6,11 +6,19 @@
 @Html.ActionLink("New", "edit")
 
 <table>
+<tr>
+    <th>Title</th>
+    <th>Created</th>
+    <th>Publish(ed) on</th>
+    <th>&nbsp;</th>
+    <th>&nbsp;</th>
+</tr>
 @foreach(var post in Model)
 {
     <tr>
         <td>@post.Title</td>
         <td>@post.Created</td>
+        <td>@post.PublishFrom</td>
         <td>@Html.ActionLink("Edit", "edit", new { post.Id }) - <a href="/read/@post.Uri">Preview</a></td>
         <td>@using (Html.BeginForm("delete","post",new {post.Id})){
             <input type="submit" value="Delete" onclick="return confirm('Are you sure?')" />
