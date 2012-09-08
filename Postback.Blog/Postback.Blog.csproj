@@ -130,7 +130,6 @@
     <Compile Include="App\Data\PredicateBuilder.cs" />
     <Compile Include="App\Data\RavenRegistry.cs" />
     <Compile Include="App\Data\RavenSession.cs" />
-    <Compile Include="App\Mapping\SetNullIfSourceHasIdZero.cs" />
     <Compile Include="App\Mapping\MappingProfile.cs" />
     <Compile Include="App\DependencyResolution\AppRegistry.cs" />
     <Compile Include="App\DependencyResolution\DependencyRegistrar.cs" />
@@ -189,9 +188,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AuditedEntity.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\Entity.cs" />
+    <Compile Include="Models\IAuditable.cs" />
     <Compile Include="Models\Post.cs" />
     <Compile Include="Models\Tag.cs" />
     <Compile Include="Models\User.cs" />
@@ -199,6 +200,7 @@
     <Compile Include="Models\ViewModels\PagingView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs" />
+    <Compile Include="SystemTime.cs" />
     <Content Include="js\app\admin.js" />
     <Content Include="js\app\core.js" />
     <Content Include="Areas\Admin\Views\Authentication\Index.cshtml" />
