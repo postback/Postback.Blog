@@ -33,7 +33,8 @@ namespace Postback.Blog.App.Mapping
 
             CreateMap<PostEditModel, Post>()
                 .ForMember(p => p.Category, o => o.Ignore())
-                .ForMember(p => p.Author, o => o.Ignore())
+                .ForMember(p => p.CreatedBy, o => o.Ignore())
+                .ForMember(p => p.Created, o => o.Ignore())
                 .ForMember(p => p.Uri, o => o.Ignore())
                 .ForMember(p => p.Comments, o => o.Ignore())
                 .ForMember(p => p.Tags, o => o.ResolveUsing<TagResolver>())
