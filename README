@@ -11,3 +11,4 @@ Things to to
 - In the post detail view & overview: show publish date or created date
 - Actually: publish date is created, when it's not being set
 - Vertical line next to post should be better alligned
+- Convert dates to UTC and parse them back on the front-end

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Cassette.Configuration;
+﻿using Cassette;
 using Cassette.Scripts;
 using Cassette.Stylesheets;
 
@@ -11,12 +7,12 @@ namespace Postback.Blog
     /// <summary>
     /// Configures the Cassette asset modules for the web application.
     /// </summary>
-    public class CassetteConfiguration : ICassetteConfiguration
+    public class CassetteConfiguration : IConfiguration<BundleCollection>
     {
-        public void Configure(BundleCollection bundles, CassetteSettings settings)
+        public void Configure(BundleCollection configurable)
         {
-            bundles.Add<StylesheetBundle>("css");
-            bundles.Add<ScriptBundle>("js");
+            configurable.Add<StylesheetBundle>("css");
+            configurable.Add<ScriptBundle>("js");
         }
     }
 }

@@ -1,1 +1,0 @@
-﻿/// <reference path="../lib/jquery-1.6.js"/>
