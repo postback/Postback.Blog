@@ -35,7 +35,7 @@ namespace Postback.Blog.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = session.Single<User>(u => u.Email == authentication.Email);
+                var user = session.FindOne<User>(u => u.Email == authentication.Email);
                 if(user !=null && crypto.GetPasswordHash(authentication.Password,user.PasswordSalt) == user.PasswordHashed)
                 {
                    auth.DoAuth(user.Email, true);
@@ -66,7 +66,7 @@ namespace Postback.Blog.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult GetNewPassword(string email)
         {
-            var user = session.Single<User>(u => u.Email == email);
+            var user = session.FindOne<User>(u => u.Email == email);
             if(user != null)
             {
                 var generatedPassword = crypto.CreatePassword(6);

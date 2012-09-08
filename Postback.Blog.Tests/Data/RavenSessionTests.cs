@@ -1,42 +1,55 @@
 ﻿using System;
 using System.Linq;
+using Microsoft.Practices.ServiceLocation;
 using NBehave.Spec.NUnit;
 using NUnit.Framework;
 using Postback.Blog.App.Data;
 using Postback.Blog.Models;
-using Raven.Client;
 using Raven.Client.Embedded;
+using Rhino.Mocks;
 
 namespace Postback.Blog.Tests.Data
 {
     [TestFixture]
-    public class RepositoryBaseTests : RavenBaseTest
+    public class RavenSessionTests : RavenBaseTest
     {
         private EmbeddableDocumentStore Store { get; set; }
         private string Id { get; set; }
         private string IdOfJane { get; set; }
 
-        protected override void CreateDefaultIndexes(IDocumentStore documentStore)
+        private string GetCurrentUser()
         {
-            base.CreateDefaultIndexes(documentStore);
+            return "vincent";
+        }
+
+        protected override void ModifyStore(EmbeddableDocumentStore documentStore)
+        {
+            documentStore.RegisterListener(new AuditableEntityListener(GetCurrentUser));
         }
 
         [SetUp]
         public void SetUp()
         {
+            var locator = M<IServiceLocator>();
+            ServiceLocator.SetLocatorProvider(() => locator);
+            var clock = M<ISystemClock>();
+            locator.Expect(l => l.GetInstance<ISystemClock>()).Return(clock);
+
+            clock.Expect(c => c.Now()).Return(new DateTime(2012, 8, 9, 0, 1, 2)).Repeat.Once();
+
             Store = NewStore();
 
-            var entitya = new RepoEntity() { Name = "John", Active = true, Address = "Sperperiodestraat", Zip = 9000, Created = DateTime.Now };
-            var entityb = new RepoEntity() { Name = "Jane", Active = false, Address = "Jasper straat", Zip = 9100, Created = new DateTime(2012, 2, 2) };
-            var entityc = new RepoEntity() { Name = "Jasper", Active = true, Address = "Karrewiet", Zip = 123456789, Created = DateTime.Now };
-            var entitye = new RepoEntity() { Name = "Vincent", Active = true, Address = "Renbaanstraat", Zip = 8888, Created = DateTime.Now };
-            var entityf = new RepoEntity() { Name = "An", Active = true, Address = "Alleren", Zip = 8888, Created = DateTime.Now };
-            var entityg = new RepoEntity() { Name = "Peter", Active = true, Address = "Reno street", Zip = 8888, Created = DateTime.Now };
-            var entityh = new RepoEntity() { Name = "Francis", Active = true, Address = "Renbaanstraat", Zip = 8888, Created = DateTime.Now };
-            var entityi = new RepoEntity() { Name = "Frederik", Active = true, Address = "Alleren", Zip = 8888, Created = DateTime.Now };
-            var entityj = new RepoEntity() { Name = "Thomas", Active = true, Address = "Fabiolalaan", Zip = 8888, Created = DateTime.Now };
-            var entityk = new RepoEntity() { Name = "Gert", Active = true, Address = "Fabiolalaan", Zip = 8888, Created = DateTime.Now };
-            var entityl = new RepoEntity() { Name = "Rembrand", Active = true, Address = "Fabiolalaan", Zip = 8888, Created = DateTime.Now };
+            var entitya = new RepoEntity { Name = "John", Active = true, Address = "Sperperiodestraat", Zip = 9000 };
+            var entityb = new RepoEntity { Name = "Jane", Active = false, Address = "Jasper straat", Zip = 9100 };
+            var entityc = new RepoEntity { Name = "Jasper", Active = true, Address = "Karrewiet", Zip = 123456789 };
+            var entitye = new RepoEntity { Name = "Vincent", Active = true, Address = "Renbaanstraat", Zip = 8888 };
+            var entityf = new RepoEntity { Name = "An", Active = true, Address = "Alleren", Zip = 8888 };
+            var entityg = new RepoEntity { Name = "Peter", Active = true, Address = "Reno street", Zip = 8888 };
+            var entityh = new RepoEntity { Name = "Francis", Active = true, Address = "Renbaanstraat", Zip = 8888 };
+            var entityi = new RepoEntity { Name = "Frederik", Active = true, Address = "Alleren", Zip = 8888 };
+            var entityj = new RepoEntity { Name = "Thomas", Active = true, Address = "Fabiolalaan", Zip = 8888 };
+            var entityk = new RepoEntity { Name = "Gert", Active = true, Address = "Fabiolalaan", Zip = 8888 };
+            var entityl = new RepoEntity { Name = "Rembrand", Active = true, Address = "Fabiolalaan", Zip = 8888 };
 
             using (var session = Store.OpenSession())
             {
@@ -75,7 +88,7 @@ namespace Postback.Blog.Tests.Data
             var ravenSession = new RavenSession(session);
 
             //Act
-            var result = ravenSession.Single<RepoEntity>(r => r.Id == Id);
+            var result = ravenSession.FindOne<RepoEntity>(r => r.Id == Id);
 
             //Assert
             result.ShouldNotBeNull();
@@ -89,13 +102,13 @@ namespace Postback.Blog.Tests.Data
             //Arrange
             var session = Store.OpenSession();
             var ravenSession = new RavenSession(session);
-            var item = ravenSession.Single<RepoEntity>(r => r.Id == Id);
+            var item = ravenSession.FindOne<RepoEntity>(r => r.Id == Id);
 
             //Act
             ravenSession.Delete(item);
 
             //Assert
-            var deleted = ravenSession.Single<RepoEntity>(r => r.Id == Id);
+            var deleted = ravenSession.FindOne<RepoEntity>(r => r.Id == Id);
             deleted.ShouldBeNull();
         }
 
@@ -106,14 +119,60 @@ namespace Postback.Blog.Tests.Data
             var session = Store.OpenSession();
             var ravenSession = new RavenSession(session);
 
+            var locator = M<IServiceLocator>();
+            ServiceLocator.SetLocatorProvider(() => locator);
+            var clock = M<ISystemClock>();
+            locator.Expect(l => l.GetInstance<ISystemClock>()).Return(clock);
+
+            clock.Expect(c => c.Now()).Return(new DateTime(2012, 1, 2, 3, 4, 5)).Repeat.Once();
+
             //Act
-            var result = ravenSession.Add(new RepoEntity() { Name = "Pol" });
+            var result = ravenSession.Save(new RepoEntity() { Name = "Pol" });
 
             //Assert
             result.ShouldNotBeNull();
             result.Id.ShouldNotBeEmpty();
-            var item = ravenSession.Single<RepoEntity>(r => r.Id == result.Id);
+            var item = ravenSession.FindOne<RepoEntity>(r => r.Id == result.Id);
             item.Name.ShouldEqual("Pol");
+            item.Created.ShouldNotBeNull();
+            item.Created.ShouldEqual(new DateTime(2012, 1, 2, 3, 4, 5));
+            clock.VerifyAllExpectations();
+            locator.VerifyAllExpectations();
+        }
+
+        [Test]
+        public void CanUpdate()
+        {
+            //Arrange
+            var session = Store.OpenSession();
+            var ravenSession = new RavenSession(session);
+
+            var locator = M<IServiceLocator>();
+            ServiceLocator.SetLocatorProvider(() => locator);
+            var clock = M<ISystemClock>();
+            locator.Expect(l => l.GetInstance<ISystemClock>()).Return(clock);
+
+            clock.Expect(c => c.Now()).Return(new DateTime(2012, 1, 2, 3, 4, 5)).Repeat.Once();
+
+            //Act
+            var result = ravenSession.Save(new RepoEntity() { Name = "Pol" });
+
+            //Assert
+            result.ShouldNotBeNull();
+            result.Id.ShouldNotBeEmpty();
+            var item = ravenSession.FindOne<RepoEntity>(r => r.Id == result.Id);
+            item.Name.ShouldEqual("Pol");
+            item.Created.ShouldEqual(new DateTime(2012, 1, 2, 3, 4, 5));
+            
+
+            //Act
+            item.Name = "Marc";
+            ravenSession.Save(item);
+
+            //Assert
+            var updated = ravenSession.FindOne<RepoEntity>(r => r.Id == result.Id);
+            updated.Name.ShouldEqual("Marc");
+            updated.Created.ShouldEqual(new DateTime(2012, 1, 2, 3, 4, 5));
         }
 
         [Test]
@@ -124,7 +183,7 @@ namespace Postback.Blog.Tests.Data
             var ravenSession = new RavenSession(session);
 
             //Act
-            var item = ravenSession.Single<RepoEntity>(r => r.Name == "Jane");
+            var item = ravenSession.FindOne<RepoEntity>(r => r.Name == "Jane");
 
             //Assert
             item.ShouldNotBeNull();

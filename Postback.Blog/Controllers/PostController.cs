@@ -50,7 +50,7 @@ namespace Postback.Blog.Controllers
 
         public ActionResult Post(string slug)
         {
-            var post = session.Single<Post>(p => p.Uri == slug);
+            var post = session.FindOne<Post>(p => p.Uri == slug);
             if (post != null && post.Active && (post.PublishFrom == null || post.PublishFrom <= DateTime.Now) || HttpContext.User.Identity.IsAuthenticated)
             {
                 return View(post);

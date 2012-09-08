@@ -6,8 +6,6 @@ This one's mainly started for:
 - and learning MongoDB using NoRM
 
 Things to to
-- Move from MongoDB to RavenDB
-- In the content overview in the admin, add Publish by date
 - In the post detail view & overview: show publish date or created date
 - Actually: publish date is created, when it's not being set
 - Vertical line next to post should be better alligned

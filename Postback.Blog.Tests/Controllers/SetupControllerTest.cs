@@ -60,7 +60,7 @@ namespace Postback.Blog.Tests.Controllers
             ObjectFactory.Inject<ICryptographer>(M<ICryptographer>());
 
             var session = M<IPersistenceSession>();
-            session.Expect(s => s.Add<User>(Arg<User>.Is.Anything)).Repeat.Once();
+            session.Expect(s => s.Save<User>(Arg<User>.Is.Anything)).Repeat.Once();
             var users = new List<User>();
             users.Add(new User());
 

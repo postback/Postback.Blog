@@ -32,7 +32,7 @@ namespace Postback.Blog.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 var entity = Mapper.Map<InitialSetupModel, User>(user);
-                session.Add<User>(entity);
+                session.Save<User>(entity);
 
                 return RedirectToAction("index", "authentication");
             }

@@ -32,7 +32,7 @@ namespace Postback.Blog.Areas.Admin.Controllers
 
         public ActionResult Edit(string id)
         {
-            var user = session.Single<User>(u => u.Id == id);
+            var user = session.FindOne<User>(u => u.Id == id);
             if(user != null)
             {
                 return View(Mapper.Map<User, UserEditModel>(user));
@@ -47,7 +47,7 @@ namespace Postback.Blog.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 var user = Mapper.Map<UserEditModel, User>(model);
-                session.Save<User>(user);
+                session.Save(user);
                 return RedirectToAction("Index");
             }
 
@@ -57,7 +57,7 @@ namespace Postback.Blog.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Delete(string id)
         {
-            var user = session.Single<User>(u => u.Id == id);
+            var user = session.FindOne<User>(u => u.Id == id);
             if(user != null && user.Email != HttpContext.User.Identity.Name)
             {
                 session.Delete<User>(user);
