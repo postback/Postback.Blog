@@ -4,13 +4,17 @@ namespace Postback.Blog.Models
 {
     public abstract class AuditedEntity : Entity, IAuditable
     {
-        private User author;
+        private string createdby;
         private DateTime created;
 
-        public User Author
+        public AuditedEntity()
         {
-            get { return author; }
-            set { author = value; }
+        }
+
+        public string CreatedBy
+        {
+            get { return createdby; }
+            set { createdby = value; }
         }
 
         public DateTime Created

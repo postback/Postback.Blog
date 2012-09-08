@@ -38,6 +38,7 @@
       <HintPath>..\packages\AutoMapper.2.1.267\lib\net40\AutoMapper.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
@@ -47,6 +48,12 @@
     </Reference>
     <Reference Include="MvcContrib.TestHelper, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MvcContrib.Mvc3.TestHelper-ci.3.0.100.0\lib\MvcContrib.TestHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="NBehave.Spec.Framework">
+      <HintPath>..\packages\nbehave.spec.nunit.0.5.1.263\lib\net40\NBehave.Spec.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="NBehave.Spec.NUnit">
+      <HintPath>..\packages\nbehave.spec.nunit.0.5.1.263\lib\net40\NBehave.Spec.NUnit.dll</HintPath>
     </Reference>
     <Reference Include="Norm, Version=0.9.8.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\NoRM.0.9.8\lib\Norm.dll</HintPath>
@@ -98,6 +105,7 @@
     <Compile Include="Extensions\StringExtensionTests.cs" />
     <Compile Include="Mapping\PostMappingtests.cs" />
     <Compile Include="Mapping\UserMappingtests.cs" />
+    <Compile Include="Models\AuditedEntityTests.cs" />
     <Compile Include="Models\PostTests.cs" />
     <Compile Include="Models\TagTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -115,7 +123,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

@@ -4,7 +4,7 @@ namespace Postback.Blog.Models
 {
     public interface IAuditable
     {
-        User Author { get; set; }
+        string CreatedBy { get; set; }
         DateTime Created { get; set; }
     }
 }
