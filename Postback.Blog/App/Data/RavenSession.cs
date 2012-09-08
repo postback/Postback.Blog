@@ -44,6 +44,11 @@ namespace Postback.Blog.App.Data
             return documentSession.Query<T>().SingleOrDefault(expression);
         }
 
+        public IQueryable<T> Find<T>(Expression<Func<T, bool>> expression) where T : class, new()
+        {
+            return documentSession.Query<T>().Where(expression);
+        }
+
         public IQueryable<T> All<T>() where T : class, new()
         {
             return documentSession.Query<T>().AsQueryable();
@@ -75,16 +80,6 @@ namespace Postback.Blog.App.Data
         {
             documentSession.Store(item);
             documentSession.SaveChanges();
-        }
-
-        public void InsertIntoCollection(object item, string name)
-        {
-            documentSession.Store(item,name);
-        }
-
-        public T MapReduce<T>(string map, string reduce)
-        {
-            throw new NotImplementedException();
         }
     }
 }
