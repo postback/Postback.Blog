@@ -46,7 +46,7 @@ namespace Postback.Blog.Tests.DI
         {
             var locator = new StructureMapServiceLocator();
             locator.RegisterDependencies();
-            ObjectFactory.Model.AllInstances.Count().ShouldEqual(18);
+            ObjectFactory.Model.AllInstances.Count().ShouldEqual(21);
             locator.Reset();
         }
 
