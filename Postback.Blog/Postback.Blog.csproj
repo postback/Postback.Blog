@@ -151,6 +151,8 @@
     <Compile Include="App\Messaging\NewPasswordCommand.cs" />
     <Compile Include="App\Messaging\OutgoingMessage.cs" />
     <Compile Include="App\Mvc\RssActionResult.cs" />
+    <Compile Include="App\Security\ISecurityContext.cs" />
+    <Compile Include="App\Security\WebSecurityContext.cs" />
     <Compile Include="App\Services\Cryptographer.cs" />
     <Compile Include="App\Services\FormsAuthWrapper.cs" />
     <Compile Include="App\Services\IAuth.cs" />
@@ -177,6 +179,7 @@
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
     <Compile Include="Areas\Api\Controllers\PostController.cs" />
     <Compile Include="Areas\Api\Controllers\UserController.cs" />
+    <Compile Include="BlogGuid.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PostController.cs" />

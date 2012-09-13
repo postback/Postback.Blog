@@ -53,7 +53,7 @@ namespace Postback.Blog.Tests.Controllers
             context.Expect(h => h.User).Return(contextuser);
 
             var session = M<IPersistenceSession>();
-            session.Expect(s => s.Single<User>(Arg<Expression<Func<User, bool>>>.Is.Anything)).Return(user).Repeat.Once();
+            session.Expect(s => s.FindOne<User>(Arg<Expression<Func<User, bool>>>.Is.Anything)).Return(user).Repeat.Once();
             session.Expect(s => s.Delete<User>(Arg<User>.Is.Anything)).Repeat.Never();
 
             var controller = new UserController(session);
@@ -80,7 +80,7 @@ namespace Postback.Blog.Tests.Controllers
             context.Expect(h => h.User).Return(contextuser);
 
             var session = M<IPersistenceSession>();
-            session.Expect(s => s.Single<User>(Arg<Expression<Func<User, bool>>>.Is.Anything)).Return(user).Repeat.Once();
+            session.Expect(s => s.FindOne<User>(Arg<Expression<Func<User, bool>>>.Is.Anything)).Return(user).Repeat.Once();
             session.Expect(s => s.Delete<User>(Arg<User>.Is.Anything)).Repeat.Once();
 
             var controller = new UserController(session);

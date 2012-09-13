@@ -17,7 +17,7 @@ namespace Postback.Blog.Areas.Api.Controllers
 
         public JsonResult IsUnique(string email, string id)
         {
-            var collection = session.All<User>().AsQueryable().Where(u => u.Email == email);
+            var collection = session.Find<User>(u => u.Email == email);
             if (collection.Count() == 0 || collection.First().Id == id)
             {
                 return Json(true, JsonRequestBehavior.AllowGet);

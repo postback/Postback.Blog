@@ -33,7 +33,7 @@ namespace Postback.Blog.Areas.Admin.Controllers
 
         public ActionResult Edit(string id)
         {
-            var post = session.Single<Post>(u => u.Id == id);
+            var post = session.FindOne<Post>(u => u.Id == id);
             if (post != null)
             {
                 return View(Mapper.Map<Post, PostEditModel>(post));
@@ -58,7 +58,7 @@ namespace Postback.Blog.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Delete(string id)
         {
-            var post = session.Single<Post>(u => u.Id == id);
+            var post = session.FindOne<Post>(u => u.Id == id);
             if (post != null)
             {
                 session.Delete<Post>(post);

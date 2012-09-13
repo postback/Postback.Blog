@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Configuration;
+using Microsoft.Practices.ServiceLocation;
+using Postback.Blog.App.Security;
 using Raven.Client;
 using StructureMap.Configuration.DSL;
 
@@ -23,14 +25,17 @@ namespace Postback.Blog.App.Data
         }
 
         public static Func<IDocumentStore> InitDocumentStore = () =>
-                                                    {
-                                                        var documentStore = new Raven.Client.Document.DocumentStore
-                                                                                {
-                                                                                    ConnectionStringName = "RavenDB"
-                                                                                };
+        {
+            var documentStore = new Raven.Client.Document.DocumentStore
+                                    {
+                                        ConnectionStringName = "RavenDB"
+                                    };
 
-                                                        documentStore.Initialize();
-                                                        return documentStore;
-                                                    };
+            documentStore.Conventions.DocumentKeyGenerator = a => BlogGuid.NewGuid().ToString();
+            documentStore.RegisterListener(new AuditableEntityListener(() => { return ServiceLocator.Current.GetInstance<ISecurityContext>().CurrentUser.Identity.Name; }));
+
+            documentStore.Initialize();
+            return documentStore;
+        };
     }
 }

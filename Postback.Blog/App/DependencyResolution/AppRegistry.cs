@@ -1,4 +1,6 @@
-﻿using Postback.Blog.App.Services;
+﻿using System.Web;
+using Postback.Blog.App.Security;
+using Postback.Blog.App.Services;
 using StructureMap.Configuration.DSL;
 
 namespace Postback.Blog.App.DependencyResolution
@@ -7,12 +9,13 @@ namespace Postback.Blog.App.DependencyResolution
     {
         public AppRegistry()
         {
-            For<IAuth>()
-                .Use<FormsAuthWrapper>();
+            For<HttpContext>().Use(() => HttpContext.Current);
+            For<HttpContextBase>().Use(() => new HttpContextWrapper(HttpContext.Current));
 
-            For<IMessagingService>()
-                .Use<SimpleMessagingService>();
+            For<IAuth>().Use<FormsAuthWrapper>();
+            For<IMessagingService>().Use<SimpleMessagingService>();
 
+            For<ISecurityContext>().Use<WebSecurityContext>();
             For<ISystemClock>().Use<SystemClock>();
         }
     }

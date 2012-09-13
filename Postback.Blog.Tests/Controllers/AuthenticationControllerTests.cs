@@ -46,7 +46,7 @@ namespace Postback.Blog.Tests.Controllers
             crypto.Expect(c => c.GetPasswordHash(pass, salt)).Return("hashedpassword").Repeat.Once();
 
             var session = M<IPersistenceSession>();
-            session.Expect(s => s.Single<User>(Arg<Expression<Func<User, bool>>>.Is.Anything)).Return(user).Repeat.Once();
+            session.Expect(s => s.FindOne<User>(Arg<Expression<Func<User, bool>>>.Is.Anything)).Return(user).Repeat.Once();
 
             var auth = M<IAuth>();
             auth.Expect(a => a.DoAuth(email, true)).Repeat.Once();
@@ -86,7 +86,7 @@ namespace Postback.Blog.Tests.Controllers
             crypto.Expect(c => c.GetPasswordHash(Arg<string>.Is.Anything, (Arg<string>.Is.Anything))).Return("hashedpassword");
 
             var session = M<IPersistenceSession>();
-            session.Expect(s => s.Single<User>(Arg<Expression<Func<User, bool>>>.Is.Anything)).Return(user);
+            session.Expect(s => s.FindOne<User>(Arg<Expression<Func<User, bool>>>.Is.Anything)).Return(user);
 
             var auth = M<IAuth>();
 
