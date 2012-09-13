@@ -10,7 +10,7 @@
             @{
                 var date = (DateTime)Model.Created;//Conversion is needed to be able to use the FormatToSmartTimeSpan extension method
              }
-            <time pubdate datetime="@Model.Created">@date.ToLocalTime().FormatToSmartTimeSpan()</time>
+            <time pubdate datetime="@Model.Created">@date.FormatToSmartTimeSpan()</time>
         </header>
         @Html.Raw(Model.Body)
         <div id="disqus_thread"></div>

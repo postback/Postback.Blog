@@ -6,8 +6,8 @@ This one's mainly started for:
 - and learning MongoDB using NoRM
 
 Things to to
-- In the post detail view & overview: show publish date or created date
-- Actually: publish date is created, when it's not being set
+- Created is changed, eventhough i'm updating
+- Actually: publish date should be created, when it's not being specifically set
 - Vertical line next to post should be better alligned
-- Convert dates to UTC and parse them back on the front-end
-- Use ServiceLocator
+- Convert everything to ServiceLocator
+- fix RSS
