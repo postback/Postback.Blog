@@ -13,7 +13,7 @@ namespace Postback.Blog.App.Mapping
             if (!(context.SourceValue is DateTime))
                 return context.SourceValue.ToNullSafeString();
 
-            return ((DateTime)context.SourceValue).ToLocalTime().FormatToSmartTimeSpan();
+            return ((DateTime)context.SourceValue).FormatToSmartTimeSpan();
         }
     }
 }

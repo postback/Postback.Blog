@@ -1,18 +1,40 @@
 ﻿using System;
+using Postback.Blog;
 
 
 public static class DateTimeExtensions
 {
     public static string FormatToSmartTimeSpan(this DateTime dateTime)
     {
-        var timestamp = DateTime.Now.Subtract(dateTime);
-        if(timestamp.Days == 1)
+        var now = SystemTime.Now();
+        TimeSpan timestamp;
+        if (dateTime.Date == now.Date)
         {
-            return "yesterday, " + dateTime.FormatToTime();
+            return "today, " + dateTime.FormatToTime();
         }
-        else if(timestamp.Days > 1)
+        else if(dateTime < now)
         {
-            return dateTime.FormatToDateAndTime();
+            timestamp = now.Date.Subtract(dateTime.Date);
+            if(timestamp.Days == 1)
+            {
+                return "yesterday, " + dateTime.FormatToTime();
+            }
+            if(timestamp.Days > 1)
+            {
+                return dateTime.FormatToDateAndTime();
+            }
+        }
+        else
+        {
+            timestamp = dateTime.Date.Subtract(now.Date);
+            if (timestamp.Days == 1)
+            {
+                return "tomorrow, " + dateTime.FormatToTime();
+            }
+            if (timestamp.Days < -1)
+            {
+                return dateTime.FormatToDateAndTime();
+            }
         }
 
         return timestamp.ToFormattedString();
