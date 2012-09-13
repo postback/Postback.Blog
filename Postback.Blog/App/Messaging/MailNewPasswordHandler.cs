@@ -15,7 +15,7 @@ namespace Postback.Blog.App.Messaging
 
         protected override ReturnValue Handle(NewPasswordMessage message)
         {
-            session.InsertIntoCollection(new { Type= "email", message.User, message.NewPassword  }, "outgoing");
+            //session.Add(new { Type= "email", message.User, message.NewPassword  });
 
             return null;
         }

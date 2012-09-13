@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using Moq;
 using NUnit.Framework;
 using Postback.Blog.App.Services;
 using Postback.Blog.Areas.Admin.Models;
 using Postback.Blog.Models;
+using Rhino.Mocks;
 using StructureMap;
 
 namespace Postback.Blog.Tests.Mapping
@@ -14,10 +14,10 @@ namespace Postback.Blog.Tests.Mapping
         [SetUp]
         public void SetUp()
         {
-            var crypto = new Mock<ICryptographer>();
-            crypto.Setup(c => c.CreateSalt()).Returns("salt");
-            crypto.Setup(c => c.GetPasswordHash("somepassword","salt")).Returns("hashedpassword");
-            ObjectFactory.Inject(typeof(ICryptographer), crypto.Object);
+            var crypto = M<ICryptographer>();
+            crypto.Expect(c => c.CreateSalt()).Return("salt");
+            crypto.Expect(c => c.GetPasswordHash("somepassword", "salt")).Return("hashedpassword");
+            ObjectFactory.Inject(typeof(ICryptographer), crypto);
         }
 
         [Test]

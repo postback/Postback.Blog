@@ -12,7 +12,7 @@
             @{
                var date = (DateTime)post.Created;//Conversion is needed to be able to use the FormatToSmartTimeSpan extension method
              }
-            <time pubdate datetime="@post.Created">@date.ToLocalTime().FormatToSmartTimeSpan()</time>
+            <time pubdate datetime="@post.Created">@date.FormatToSmartTimeSpan()</time>
         </header>
         @Html.Raw(post.Body)
         <footer>
