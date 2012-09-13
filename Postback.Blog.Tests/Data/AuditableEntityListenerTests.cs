@@ -9,7 +9,7 @@ using Rhino.Mocks;
 
 namespace Postback.Blog.Tests.Data
 {
-    [TestFixture]
+    [TestFixture,Ignore]
     public class AuditableEntityListenerTests : RavenBaseTest
     {
         private EmbeddableDocumentStore Store { get; set; }
