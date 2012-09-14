@@ -150,6 +150,7 @@
     <Compile Include="App\Messaging\MailNewPasswordHandler.cs" />
     <Compile Include="App\Messaging\NewPasswordCommand.cs" />
     <Compile Include="App\Messaging\OutgoingMessage.cs" />
+    <Compile Include="App\Mvc\ConventionModelBinderProvider.cs" />
     <Compile Include="App\Mvc\RssActionResult.cs" />
     <Compile Include="App\Security\ISecurityContext.cs" />
     <Compile Include="App\Security\WebSecurityContext.cs" />
@@ -192,6 +193,7 @@
     <Compile Include="Extensions\MvcHelperExtension.cs" />
     <Compile Include="Extensions\PrimitiveExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

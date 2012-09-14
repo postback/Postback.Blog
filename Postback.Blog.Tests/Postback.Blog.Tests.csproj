@@ -164,6 +164,7 @@
     <Compile Include="Extensions\DateTimeExtensionsTests.cs" />
     <Compile Include="Extensions\MvcExtensionsTests.cs" />
     <Compile Include="Extensions\StringExtensionTests.cs" />
+    <Compile Include="Extensions\TypeExtensionTests.cs" />
     <Compile Include="Mapping\PostMappingtests.cs" />
     <Compile Include="Mapping\UserMappingtests.cs" />
     <Compile Include="Models\AuditedEntityTests.cs" />
