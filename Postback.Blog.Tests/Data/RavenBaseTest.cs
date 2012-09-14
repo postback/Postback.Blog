@@ -25,8 +25,6 @@ namespace Postback.Blog.Tests.Data
             ModifyStore(store);
             ModifyConfiguration(store.Configuration);
 
-            NonAdminHttp.EnsureCanListenToWhenInNonAdminContext(8000);
-
             store.Initialize();
 
             CreateDefaultIndexes(store);
