@@ -3,6 +3,7 @@ using Raven.Client;
 using Raven.Client.Embedded;
 using Raven.Client.Indexes;
 using Raven.Database.Config;
+using Raven.Database.Server;
 
 namespace Postback.Blog.Tests.Data
 {
@@ -23,6 +24,8 @@ namespace Postback.Blog.Tests.Data
 
             ModifyStore(store);
             ModifyConfiguration(store.Configuration);
+
+            NonAdminHttp.EnsureCanListenToWhenInNonAdminContext(8000);
 
             store.Initialize();
 

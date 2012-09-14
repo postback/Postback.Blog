@@ -10,7 +10,7 @@ using Rhino.Mocks;
 
 namespace Postback.Blog.Tests.Data
 {
-    [TestFixture, Ignore]
+    [TestFixture]
     public class RavenSessionTests : RavenBaseTest
     {
         private EmbeddableDocumentStore Store { get; set; }

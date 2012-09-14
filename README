@@ -10,4 +10,4 @@ Things to to
 - Actually: publish date should be created, when it's not being specifically set
 - Vertical line next to post should be better alligned
 - Convert everything to ServiceLocator
-- fix RSS
+- Fix ravendb embedded unit tests + appharbor 
