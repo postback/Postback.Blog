@@ -19,7 +19,7 @@ namespace Postback.Blog.Tests.Data
                     DefaultStorageTypeName = "munin",
                     RunInMemory = true,
                 },
-                UseEmbeddedHttpServer = true,
+                UseEmbeddedHttpServer = false,
             };
 
             ModifyStore(store);
