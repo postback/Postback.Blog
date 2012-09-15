@@ -44,6 +44,11 @@ namespace Postback.Blog.App.Data
             return documentSession.Query<T>().SingleOrDefault(expression);
         }
 
+        public T Get<T>(string id) where T : class, new()
+        {
+            return documentSession.Load<T>(id);
+        }
+
         public IQueryable<T> Find<T>(Expression<Func<T, bool>> expression) where T : class, new()
         {
             return documentSession.Query<T>().Where(expression);
