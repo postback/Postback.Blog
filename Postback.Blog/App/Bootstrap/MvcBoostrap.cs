@@ -1,5 +1,6 @@
 ﻿using System.Web.Mvc;
 using System.Web.Routing;
+using Postback.Blog.App.Mvc;
 
 namespace Postback.Blog.App.Bootstrap
 {
@@ -11,6 +12,8 @@ namespace Postback.Blog.App.Bootstrap
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
+
+            ModelBinderProviders.BinderProviders.Add(new ConventionModelBinderProvider());
         }
 
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)

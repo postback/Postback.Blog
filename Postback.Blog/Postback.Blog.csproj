@@ -151,6 +151,7 @@
     <Compile Include="App\Messaging\NewPasswordCommand.cs" />
     <Compile Include="App\Messaging\OutgoingMessage.cs" />
     <Compile Include="App\Mvc\ConventionModelBinderProvider.cs" />
+    <Compile Include="App\Mvc\EntityModelBinder.cs" />
     <Compile Include="App\Mvc\RssActionResult.cs" />
     <Compile Include="App\Security\ISecurityContext.cs" />
     <Compile Include="App\Security\WebSecurityContext.cs" />

@@ -6,8 +6,8 @@ This one's mainly started for:
 - and learning MongoDB using NoRM
 
 Things to to
+- modelbinding
 - Created is changed, eventhough i'm updating
 - Actually: publish date should be created, when it's not being specifically set
 - Vertical line next to post should be better alligned
 - Convert everything to ServiceLocator
-- fix RSS
