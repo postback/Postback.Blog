@@ -30,7 +30,7 @@ namespace Postback.Blog.Areas.Admin.Models
         [DataType(DataType.DateTime)]
         public DateTime PublishFrom { get; set; }
 
-        [DataType(DataType.DateTime),HiddenInput]
+        [DataType(DataType.DateTime), HiddenInput]
         public DateTime Created { get; set; }
 
         [HiddenInput]
