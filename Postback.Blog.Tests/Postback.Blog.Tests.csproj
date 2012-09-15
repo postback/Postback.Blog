@@ -164,11 +164,14 @@
     <Compile Include="Extensions\DateTimeExtensionsTests.cs" />
     <Compile Include="Extensions\MvcExtensionsTests.cs" />
     <Compile Include="Extensions\StringExtensionTests.cs" />
+    <Compile Include="Extensions\TypeExtensionTests.cs" />
     <Compile Include="Mapping\PostMappingtests.cs" />
     <Compile Include="Mapping\UserMappingtests.cs" />
     <Compile Include="Models\AuditedEntityTests.cs" />
     <Compile Include="Models\PostTests.cs" />
     <Compile Include="Models\TagTests.cs" />
+    <Compile Include="Mvc\ContentModelBinderProviderTests.cs" />
+    <Compile Include="Mvc\EntityModelBinderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\PostControllerTest.cs" />
     <Compile Include="Security\WebSecurityContextTests.cs" />

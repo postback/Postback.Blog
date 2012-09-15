@@ -82,6 +82,22 @@ namespace Postback.Blog.Tests.Data
         }
 
         [Test]
+        public void CanGet()
+        {
+            //Arrange
+            var session = Store.OpenSession();
+            var ravenSession = new RavenSession(session);
+
+            //Act
+            var result = ravenSession.Get<RepoEntity>(Id);
+
+            //Assert
+            result.ShouldNotBeNull();
+            result.Id.ShouldEqual(Id);
+            result.Name.ShouldEqual("John");
+        }
+
+        [Test]
         public void CanSingle()
         {
             //Arrange
