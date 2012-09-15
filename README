@@ -1,11 +1,5 @@
 ﻿A simple blog engine, built from scratch (hey, we'll never have enough blog engines).
-This one's mainly started for:
-- getting my fingers dirty with MVC 3
-- practicing that github thang
-- learning MongoDB
-- and learning MongoDB using NoRM
+First intended as an exercise to test out some technologies. It runs my own blog http://postback.be (mostly Dutch) on AppHarbor.
 
 Things to to
-- Actually: publish date should be created, when it's not being specifically set
-- Vertical line next to post should be better alligned
 - Convert everything to ServiceLocator

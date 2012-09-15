@@ -72,7 +72,11 @@ article header {
 }
 
 article p {
-    margin: 0 0 24px;
+    margin-bottom: 24px;
+}
+
+article p:last-child {
+    margin: 0;
 }
 
 article p a {
@@ -91,15 +95,16 @@ article {
 article img{
     float: right !important;
     padding: 0 0 6px 6px !important;
+    margin: 0px !important;
 }
 
 time {
     position: absolute;
-    left: 900px;
+    left: 924px;
     color: #666;
     font-size: 12px;
     border-left: #666 solid 1px;
-    padding-left: 12px;
+    padding-left: 24px;
     width: 120px;
     top: 0px;
 }
@@ -107,14 +112,16 @@ time {
 footer {
     position: absolute;
     top: 24px;
-    left: 900px;
+    left: 924px;
     border-left: #666 solid 1px;
-    padding-left: 12px;
+    padding-left: 24px;
     width: 120px;
+    text-transform: lowercase;
+    font-size: 12px;
 }
 
 .tags {
-    font-size: 12px;
+    
 }
 
 .tags li {
@@ -123,4 +130,86 @@ footer {
 
 footer a {
     text-decoration: underline;
+}
+
+@media screen and (max-width:900px) {
+    footer, time, nav{
+        width: 95%;
+    }
+
+    body{
+        width: 95%;
+    }
+
+    .page{
+        width: 100%;
+    }
+
+    article img, iframe, object{
+        max-width: 100%;
+        height: auto;
+    }
+
+    article img{
+        float: none !important;
+        display: block !important;
+        clear: both !important;
+        padding: 0 !important;
+        margin: 0 0 6px 0 !important;
+        width: 100% !important;
+        height: auto !important;
+    }
+
+    #title {
+        padding: 6px 0;
+        font-size: 54px;
+        color: #333;
+    }
+
+    #accouncement{
+        margin-top: 6px;
+        border-bottom: 1px solid #aaa;
+        color: #aaa;
+        padding: 6px 6px;
+        text-align: center;
+        font-size: 12px;
+    }
+}
+
+@media screen and (max-width:1240px) {
+    footer, time{
+        position: relative;
+    }
+
+    time{
+        left: -25px;
+        width: auto;
+    }
+
+    footer{
+        border:none;
+        left: 0;
+        top: 0;
+        padding-left:0px;
+        width: auto;
+        margin-bottom:48px;
+    }
+
+    nav{
+        position: relative;
+        border: none;
+        padding: 0px;
+        margin: 0px;
+        width: auto;
+    }
+
+    footer ul, footer ul li{
+        display: inline;
+    }
+
+    footer .tags{
+        margin-left:24px;
+        padding-left:24px;
+        border-left: #666 solid 1px;
+    }
 }
