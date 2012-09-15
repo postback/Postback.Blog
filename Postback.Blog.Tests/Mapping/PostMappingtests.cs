@@ -37,6 +37,27 @@ namespace Postback.Blog.Tests.Mapping
         }
 
         [Test]
+        public void PostIsMappedFromModelWithPublishingDateSameAsCreatedWhenNotSet()
+        {
+            var model = new PostEditModel { Title = "Post title", Tags = "music , movie , multiple words ; other separator", Created = DateTime.Now };
+            var post = Mapper.Map<PostEditModel, Post>(model);
+
+            Assert.That(post.Created, Is.EqualTo(model.Created));
+            Assert.That(post.PublishFrom, Is.EqualTo(model.Created));
+        }
+
+        [Test]
+        public void PostIsMappedFromModelWithPublishingDateWhenSet()
+        {
+            var model = new PostEditModel { Title = "Post title", Tags = "music , movie , multiple words ; other separator", Created = new DateTime(2009, 8, 7, 6, 5, 4, DateTimeKind.Local), PublishFrom = new DateTime(2009, 1, 2, 3, 4, 5, DateTimeKind.Local) };
+            var post = Mapper.Map<PostEditModel, Post>(model);
+
+            Assert.That(post.Created, Is.EqualTo(model.Created));
+            Assert.That(post.PublishFrom, Is.EqualTo(model.PublishFrom));
+            Assert.That(post.PublishFrom, Is.Not.EqualTo(model.Created));
+        }
+
+        [Test]
         public void MapsToViewModelWithSmartDates()
         {
             var post = new Post { Id = "some-id", Uri = "some-uri", Title = "Post title", Active = true, Created = new DateTime(2009, 8, 7, 6, 5, 4, DateTimeKind.Local), PublishFrom = new DateTime(2009, 1, 2, 3, 4, 5, DateTimeKind.Local) };
