@@ -1,14 +1,14 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Postback.Blog", "Postback.Blog\Postback.Blog.csproj", "{4D5A1B24-EFB5-413F-B39B-AF3B48B464FE}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Postback.Blog.Tests", "Postback.Blog.Tests\Postback.Blog.Tests.csproj", "{B2F687D1-60DA-4D21-9F27-0290C5859ED7}"
-EndProject
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3CE6918B-E1A1-461C-B401-A39C16047D9B}"
 	ProjectSection(SolutionItems) = preProject
 		README = README
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Postback.Blog", "Postback.Blog\Postback.Blog.csproj", "{4D5A1B24-EFB5-413F-B39B-AF3B48B464FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Postback.Blog.Tests", "Postback.Blog.Tests\Postback.Blog.Tests.csproj", "{B2F687D1-60DA-4D21-9F27-0290C5859ED7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
