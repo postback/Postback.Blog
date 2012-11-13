@@ -1,16 +1,8 @@
-﻿@{
-    //Bundles.Reference("/js/lib/modernizr-2.6.2.js");
-    //Bundles.Reference("/js/lib/jquery.validate.js");
-    //Bundles.Reference("/js/lib/jquery.validate.unobtrusive.js");
-    //Bundles.Reference("/js/app/admin.js");
-}
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <title>Manage that Content - @ViewBag.Title</title>
-    <link href="@Url.Content("~/css/admin/styles.css")" rel="stylesheet" type="text/css" />
 
 </head>
 <body>
@@ -29,5 +21,7 @@
         <footer>
         </footer>
     </div>
+
+    @Rzr.Js("backendscripts")
 </body>
 </html>
