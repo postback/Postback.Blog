@@ -1,0 +1,8 @@
+﻿@using SquishIt.Mvc
+
+@helper Css(string key) {
+  @SquishIt.Framework.Bundle.Css().MvcRenderCachedAssetTag(key)
+}
+@helper Js(string key) {
+  @SquishIt.Framework.Bundle.JavaScript().MvcRenderCachedAssetTag(key)
+}
