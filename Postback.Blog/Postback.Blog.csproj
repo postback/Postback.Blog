@@ -183,6 +183,7 @@
     <Compile Include="App\Bootstrap\MvcBoostrap.cs" />
     <Compile Include="App\Config\MappingProfile.cs" />
     <Compile Include="App\Data\AuditableEntityListener.cs" />
+    <Compile Include="App\Data\PostsByTagIndex.cs" />
     <Compile Include="App\Data\PredicateBuilder.cs" />
     <Compile Include="App\Data\RavenRegistry.cs" />
     <Compile Include="App\Data\RavenSession.cs" />
@@ -237,7 +238,6 @@
     <Compile Include="BlogGuid.cs" />
     <Compile Include="Controllers\AssetController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PostController.cs" />
     <Compile Include="App\DependencyResolution\StructureMapDependencyResolver.cs" />
     <Compile Include="Controllers\RssController.cs" />
@@ -888,6 +888,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Code\Rzr.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Post\Tag.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

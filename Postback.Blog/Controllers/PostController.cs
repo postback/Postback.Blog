@@ -37,15 +37,12 @@ namespace Postback.Blog.Controllers
             ViewBag.Tag = tag;
             ViewBag.Paging = new PagingView("post", "tag")
             {
-                ItemCount = session.All<Post>().Count(),
+                ItemCount = session.All<Post>().Where(p => p.Tags.Any(t => t.Uri == tag)).Count(),
                 CurrentPage = page.HasValue ? page.Value : 0,
                 ItemsOnOnePage = PAGE_SIZE,
             };
 
-            var predicate = PredicateBuilder.True<Post>();
-            predicate.AndAlso(p => p.Tags.Select(t => t.Uri).Contains(tag));
-
-            return View(session.All<Post>().Where(predicate).OrderByDescending(p => p.Created).Skip(page.HasValue ? (page.Value - 1) * PAGE_SIZE : 0).Take(PAGE_SIZE).ToList());
+            return View(session.All<Post>().Where(p => p.Tags.Any(t => t.Uri == tag)).OrderByDescending(p => p.Created).Skip(page.HasValue ? (page.Value - 1) * PAGE_SIZE : 0).Take(PAGE_SIZE).ToList());
         }
 
         public ActionResult Post(string slug)

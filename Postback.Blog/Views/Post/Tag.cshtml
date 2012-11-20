@@ -1,0 +1,41 @@
+﻿@{
+    ViewBag.Title = ViewBag.Tag + " tag: all the posts";
+    Layout = "../Shared/_Layout.cshtml";
+}
+
+<section>
+@foreach(var post in Model)
+{
+    <article>
+        <header>
+            <h2><a href="/read/@post.Uri">@post.Title</a></h2>
+            @{
+               var date = (DateTime)post.Created;//Conversion is needed to be able to use the FormatToSmartTimeSpan extension method
+             }
+            <time pubdate datetime="@post.Created">@date.FormatToSmartTimeSpan()</time>
+        </header>
+        @Html.Raw(post.Body)
+        <footer>
+            <a href="/read/@post.Uri#disqus_thread">Reageer</a>
+            <ul class="tags">
+                @foreach (var tag in post.Tags)
+                { 
+                    <li><a href="/tag/@tag.Uri">@tag.Name</a></li>
+                }
+            </ul>
+        </footer>
+    </article>
+}
+</section>
+
+@{Html.RenderPartial("_paging", (PagingView)ViewBag.Paging);}
+
+<script type="text/javascript">
+    var disqus_shortname = '@Html.AppSetting("disqus.shortname")';  
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    } ());
+</script>
