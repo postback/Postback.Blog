@@ -243,6 +243,7 @@
     <Compile Include="Controllers\RssController.cs" />
     <Compile Include="DependencyResolution\IoC.cs" />
     <Compile Include="DependencyResolution\SmDependencyResolver.cs" />
+    <Compile Include="Extensions\ControlGroupExtensions.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\HtmlHelperExtensions.cs" />
     <Compile Include="Extensions\MvcHelperExtension.cs" />
@@ -267,6 +268,12 @@
     <Compile Include="Settings.cs" />
     <Compile Include="SystemClock.cs" />
     <Compile Include="SystemTime.cs" />
+    <Content Include="css\lib\bootstrap-responsive.css" />
+    <Content Include="css\lib\bootstrap-responsive.min.css" />
+    <Content Include="css\lib\bootstrap.css" />
+    <Content Include="css\lib\bootstrap.min.css" />
+    <Content Include="css\lib\images\glyphicons-halflings-white.png" />
+    <Content Include="css\lib\images\glyphicons-halflings.png" />
     <Content Include="js\app\admin.js" />
     <Content Include="js\app\core.js" />
     <Content Include="Areas\Admin\Views\Authentication\Index.cshtml" />
@@ -277,6 +284,7 @@
     <Content Include="js\jquery.validate-vsdoc.js" />
     <Content Include="js\jquery.validate.js" />
     <Content Include="js\jquery.validate.min.js" />
+    <Content Include="js\lib\bootstrap.min.js" />
     <Content Include="js\lib\jquery-1.6-vsdoc.js" />
     <Content Include="js\lib\jquery-1.6.js" />
     <Content Include="js\lib\jquery.validate-vsdoc.js" />
@@ -805,6 +813,9 @@
     <Content Include="js\lib\MicrosoftMvcValidation.js" />
     <Content Include="js\lib\MicrosoftMvcValidation.debug.js" />
     <Content Include="js\lib\modernizr-2.6.2.js" />
+    <None Include="scripts\jquery-1.8.2-vsdoc.js" />
+    <Content Include="scripts\jquery-1.8.2.js" />
+    <Content Include="scripts\jquery-1.8.2.min.js" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Post\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
@@ -891,6 +902,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Post\Tag.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

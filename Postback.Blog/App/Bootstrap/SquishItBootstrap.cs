@@ -25,12 +25,13 @@ namespace Postback.Blog.App.Bootstrap
             .Add("~/js/lib/modernizr-2.6.2.js")
             .Add("~/js/lib/jquery.validate.js")
             .Add("~/js/lib/jquery.validate.unobtrusive.js")
+            .Add("~/js/lib/bootstrap.min.js")
             .Add("~/js/app/admin.js")
             .AsCached("backendscripts", "~/assets/js/backendscripts");
 
-            //Bundle.Css()
-           //.Add("~/css/admin/styles.css")
-            //.AsCached("backend", "~/assets/css/backend");
+            Bundle.Css()
+           .Add("~/css/lib/bootstrap.min.css")
+            .AsCached("backend", "~/assets/css/backend");
         }
     }
 }

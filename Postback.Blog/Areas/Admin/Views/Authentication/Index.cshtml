@@ -8,7 +8,7 @@
 @using (Html.BeginForm("index","authentication"))
 {
     @Html.EditorForModel()
-    <p>
-        <input type="submit" value="Sign-in" /> @Html.ActionLink("Forgot your password?", "forgotpassword");
-    </p>
+   <div class="form-actions">
+        <input type="submit" value="Sign-in" class="btn btn-primary"/> @Html.ActionLink("Forgot your password?", "authentication","forgotpassword",new {@class="btn"})
+    </div>
 }

@@ -20,6 +20,7 @@ namespace Postback.Blog.Controllers
             this.session = session;
         }
 
+        [OutputCache(Duration = 1200, VaryByParam = "page")]
         public ActionResult Index(int? page)
         {
             ViewBag.Paging = new PagingView("post", "index")
@@ -32,6 +33,7 @@ namespace Postback.Blog.Controllers
             return View("index", session.All<Post>().Where(p => p.Active && (p.PublishFrom == null || p.PublishFrom <= clock.Now())).OrderByDescending(p => p.Created).Skip(page.HasValue ? (page.Value - 1) * PAGE_SIZE : 0).Take(PAGE_SIZE).ToList());
         }
 
+        [OutputCache(Duration = 1200, VaryByParam = "tag")]
         public ActionResult Tag(string tag, int? page)
         {
             ViewBag.Tag = tag;
@@ -45,6 +47,7 @@ namespace Postback.Blog.Controllers
             return View(session.All<Post>().Where(p => p.Tags.Any(t => t.Uri == tag)).OrderByDescending(p => p.Created).Skip(page.HasValue ? (page.Value - 1) * PAGE_SIZE : 0).Take(PAGE_SIZE).ToList());
         }
 
+         [OutputCache(Duration = 1200, VaryByParam = "page")]
         public ActionResult Post(string slug)
         {
             var post = session.FindOne<Post>(p => p.Uri == slug);

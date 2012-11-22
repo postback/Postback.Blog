@@ -2,7 +2,6 @@
 First intended as an exercise to test out some technologies. It runs my own blog http://postback.be (mostly Dutch) on AppHarbor.
 
 Things to to
-- Fix tag issue
 - Convert everything to ServiceLocator
 - Better admin layout
 - Plugin image picker in editor to fetch stuff from amazon

@@ -44,9 +44,4 @@ public static class StringExtensions
 
         return slug;
     }
-
-    public static string ToSeparatedWords(this string value)
-    {
-        return Regex.Replace(value, "([A-Z][a-z])", " $1").Trim();
-    }
 }
