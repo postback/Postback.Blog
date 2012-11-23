@@ -191,7 +191,6 @@
     <Compile Include="App\DependencyResolution\StructureMapServiceLocator.cs" />
     <Compile Include="App\Mapping\MappingProfile.cs" />
     <Compile Include="App\DependencyResolution\AppRegistry.cs" />
-    <Compile Include="App\DependencyResolution\DependencyRegistrar.cs" />
     <Compile Include="App\Data\IRepository.cs" />
     <Compile Include="App\Data\Repository.cs" />
     <Compile Include="App\Mapping\PasswordResolver.cs" />
@@ -240,7 +239,6 @@
     <Compile Include="App\DependencyResolution\ServiceLocatorDependencyResolver.cs" />
     <Compile Include="Controllers\RssController.cs" />
     <Compile Include="DependencyResolution\IoC.cs" />
-    <Compile Include="DependencyResolution\SmDependencyResolver.cs" />
     <Compile Include="Extensions\ControlGroupExtensions.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\HtmlHelperExtensions.cs" />

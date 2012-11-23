@@ -24,7 +24,7 @@ namespace Postback.Blog.Tests.Controllers
         {
             var users = new List<User> { new User() { Active = true }, new User() { Active = false }, new User() { Active = true} };
             var session = M<IPersistenceSession>();
-            session.Expect(s => s.All<User>()).Return(users.AsQueryable()).Repeat.Once();
+            session.Expect(s => s.All<User>()).Return(users.AsQueryable()).Repeat.AtLeastOnce();
 
 
             var controller = new UserController(session);

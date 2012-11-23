@@ -11,6 +11,7 @@ using Postback.Blog.Areas.Admin.Models;
 using System.Collections.Generic;
 using Rhino.Mocks;
 using StructureMap;
+using Microsoft.Practices.ServiceLocation;
 
 namespace Postback.Blog.Tests.Controllers
 {
@@ -57,7 +58,10 @@ namespace Postback.Blog.Tests.Controllers
         [Test]
         public void IndexShouldRedirectWhenUserIsSaved()
         {
-            ObjectFactory.Inject<ICryptographer>(M<ICryptographer>());
+            var crypto = M<ICryptographer>();
+            var locator = M<IServiceLocator>();
+            ServiceLocator.SetLocatorProvider(() => locator);
+            locator.Expect(l => l.GetInstance<ICryptographer>()).Return(crypto);
 
             var session = M<IPersistenceSession>();
             session.Expect(s => s.Save<User>(Arg<User>.Is.Anything)).Repeat.Once();

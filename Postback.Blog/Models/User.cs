@@ -1,5 +1,6 @@
 ﻿using System.Web.Mvc;
 using Postback.Blog.App.Services;
+using Microsoft.Practices.ServiceLocation;
 
 namespace Postback.Blog.Models
 {
@@ -14,7 +15,7 @@ namespace Postback.Blog.Models
         {
             if (!string.IsNullOrEmpty(password))
             {
-                var cryptographer = DependencyResolver.Current.GetService<ICryptographer>();
+                var cryptographer = ServiceLocator.Current.GetInstance<ICryptographer>();
                 PasswordSalt = cryptographer.CreateSalt();
                 PasswordHashed = cryptographer.GetPasswordHash(password, PasswordSalt);
             }

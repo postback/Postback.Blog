@@ -36,7 +36,7 @@ namespace Postback.Blog.App.DependencyResolution
 
         public IEnumerable<object> GetServices(Type serviceType)
         {
-            return ServiceLocator.Current.GetAllInstances<object>().Where(s => s.GetType() == serviceType);
+            return ServiceLocator.Current.GetAllInstances(serviceType);
         }
     }
 }

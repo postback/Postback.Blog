@@ -146,7 +146,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\StructuremapMvc.cs" />
     <Compile Include="Attributes\AppInitTests.cs" />
     <Compile Include="Bootstrap\BaseHttpModuleTests.cs" />
     <Compile Include="Bootstrap\BootStrapTests.cs" />
@@ -162,7 +161,6 @@
     <Compile Include="Data\RavenBaseTest.cs" />
     <Compile Include="Data\RavenSessionTests.cs" />
     <Compile Include="DependencyResolution\IoC.cs" />
-    <Compile Include="DependencyResolution\SmDependencyResolver.cs" />
     <Compile Include="DI\DependencyRegistrationTests.cs" />
     <Compile Include="DI\StructureMapServiceLocatorTests.cs" />
     <Compile Include="Extensions\DateTimeExtensionsTests.cs" />
@@ -200,6 +198,9 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Start\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
