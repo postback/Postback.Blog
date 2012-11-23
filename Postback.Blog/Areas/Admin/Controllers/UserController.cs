@@ -5,6 +5,7 @@ using AutoMapper;
 using Postback.Blog.App.Data;
 using Postback.Blog.Areas.Admin.Models;
 using Postback.Blog.Models;
+using Postback.Blog.Models.ViewModels;
 
 namespace Postback.Blog.Areas.Admin.Controllers
 {
@@ -24,6 +25,13 @@ namespace Postback.Blog.Areas.Admin.Controllers
                 .Skip(page.HasValue ? ((page.Value - 1)*Settings.PageSize):0)
                 .Take(Settings.PageSize)
                 .ToList();
+
+            ViewBag.Paging = new PagingView()
+            {
+                ItemCount = session.All<User>().Count(),
+                CurrentPage = page.HasValue ? page.Value : 0,
+                ItemsOnOnePage = Settings.PageSize
+            };
 
             var models = users.Select(Mapper.Map<User, UserViewModel>).ToList();
 
