@@ -28,7 +28,7 @@
 }
 </section>
 
-@{Html.RenderPartial("_paging", (PagingView)ViewBag.Paging);}
+@Html.Pager((PagingView)ViewBag.Paging)
 
 <script type="text/javascript">
     var disqus_shortname = '@Html.AppSetting("disqus.shortname")';  

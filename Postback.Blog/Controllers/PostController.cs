@@ -23,7 +23,7 @@ namespace Postback.Blog.Controllers
         [OutputCache(Duration = 1200, VaryByParam = "page")]
         public ActionResult Index(int? page)
         {
-            ViewBag.Paging = new PagingView("post", "index")
+            ViewBag.Paging = new PagingView()
                                  {
                                      ItemCount = session.All<Post>().Count(),
                                      CurrentPage = page.HasValue ? page.Value : 0,
@@ -37,7 +37,7 @@ namespace Postback.Blog.Controllers
         public ActionResult Tag(string tag, int? page)
         {
             ViewBag.Tag = tag;
-            ViewBag.Paging = new PagingView("post", "tag")
+            ViewBag.Paging = new PagingView()
             {
                 ItemCount = session.All<Post>().Where(p => p.Tags.Any(t => t.Uri == tag)).Count(),
                 CurrentPage = page.HasValue ? page.Value : 0,
