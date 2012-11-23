@@ -67,8 +67,8 @@ namespace Postback.Blog.Tests.Mapping
             model.Title.ShouldEqual("Post title");
             model.Id.ShouldEqual(post.Id);
             model.Uri.ShouldEqual(post.Uri);
-            model.Created.ShouldEqual("07/08/2009 06:05");
-            model.PublishFrom.ShouldEqual("02/01/2009 03:04");
+            model.Created.ShouldEqual("07 Aug 2009 06:05");
+            model.PublishFrom.ShouldEqual("02 Jan 2009 03:04");
         }
     }
 }

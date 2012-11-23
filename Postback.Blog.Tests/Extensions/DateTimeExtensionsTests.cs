@@ -18,7 +18,7 @@ namespace Postback.Blog.Tests.Extensions
         public void ShouldFormatToDate()
         {
             var date = new DateTime(2011, 1, 2, 23, 4, 5);
-            Assert.That(date.FormatToDate(), Is.EqualTo("02/01/2011"));
+            Assert.That(date.FormatToDate(), Is.EqualTo("02 Jan 2011"));
         }
 
         [Test]
@@ -54,7 +54,7 @@ namespace Postback.Blog.Tests.Extensions
             SystemTime.Now = () => new DateTime(2012, 3, 8, 4, 5, 6);
             var date = new DateTime(2012, 3, 4, 6, 7, 8);
 
-            date.FormatToSmartTimeSpan().ShouldEqual(date.ToString("dd/MM/yyyy HH:mm"));
+            date.FormatToSmartTimeSpan().ShouldEqual(date.ToString("dd MMM yyyy HH:mm"));
         }
 
         [Test]
