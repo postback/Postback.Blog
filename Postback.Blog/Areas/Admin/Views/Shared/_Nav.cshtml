@@ -1,7 +1,7 @@
 ﻿@if(HttpContext.Current.User.Identity.IsAuthenticated)
 {
     <nav>
-        <ul id="menu">
+        <ul class="nav nav-tabs">
             <li>@Html.ActionLink("Dashboard", "index", "dashboard")</li>
             <li>@Html.ActionLink("Posts", "index", "post")</li>
             <li>@Html.ActionLink("Users", "index", "user")</li>

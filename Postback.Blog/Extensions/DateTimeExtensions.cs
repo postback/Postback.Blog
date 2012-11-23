@@ -57,7 +57,7 @@ public static class DateTimeExtensions
 
     public static string FormatToDate(this DateTime date)
     {
-        return date.ToString("dd/MM/yyyy");
+        return date.ToString("dd MMM yyyy");
     }
 
     public static string FormatToTime(this DateTime date)

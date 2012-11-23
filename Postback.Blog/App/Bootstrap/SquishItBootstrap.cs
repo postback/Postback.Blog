@@ -31,6 +31,7 @@ namespace Postback.Blog.App.Bootstrap
 
             Bundle.Css()
            .Add("~/css/lib/bootstrap.min.css")
+           .Add("~/css/admin.css")
             .AsCached("backend", "~/assets/css/backend");
         }
     }
