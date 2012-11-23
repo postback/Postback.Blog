@@ -3,6 +3,6 @@ First intended as an exercise to test out some technologies. It runs my own blog
 
 Things to to
 - Convert everything to ServiceLocator
-- Better admin layout
 - Plugin image picker in editor to fetch stuff from amazon
 - Cache content actions
+- Redeisng front-end a bit (tags, details page, paging)
