@@ -4,8 +4,7 @@
     <text>@ViewData.ModelMetadata.SimpleDisplayText</text>
 } else {
     @Html.Hidden("Id");
-    <fieldset class="form-horizontal">
-    @foreach (var property in ViewData.ModelMetadata.Properties.Where(pm => pm.ShowForDisplay && !ViewData.TemplateInfo.Visited(pm) && pm.PropertyName != "Id"))
+    foreach (var property in ViewData.ModelMetadata.Properties.Where(pm => pm.ShowForDisplay && !ViewData.TemplateInfo.Visited(pm) && pm.PropertyName != "Id"))
     {
         if (property.HideSurroundingHtml)
         {
@@ -20,5 +19,4 @@
             @Html.EndControlGroup()
         }
     }
-    </fieldset>
 }

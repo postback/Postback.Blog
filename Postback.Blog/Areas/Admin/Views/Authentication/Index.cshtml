@@ -5,10 +5,12 @@
 
 @model Postback.Blog.Areas.Admin.Models.AuthenticationModel
 
-@using (Html.BeginForm("index","authentication"))
+@using (Html.BeginForm("index", "authentication", FormMethod.Post, new { @class = "form-horizontal" }))
 {
     @Html.EditorForModel()
-   <div class="form-actions">
+   <div class="control-group">
+        <div class="controls">
         <input type="submit" value="Sign-in" class="btn btn-primary"/> @Html.ActionLink("Forgot your password?", "authentication","forgotpassword",new {@class="btn"})
+    </div>
     </div>
 }

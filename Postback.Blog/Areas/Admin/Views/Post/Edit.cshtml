@@ -5,7 +5,7 @@
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-@using (Html.BeginForm("edit","post"))
+@using (Html.BeginForm("edit", "post", FormMethod.Post, new { @class = "form-horizontal" }))
 {
     @Html.EditorForModel()
     <p>

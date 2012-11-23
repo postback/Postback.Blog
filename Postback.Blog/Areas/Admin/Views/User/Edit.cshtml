@@ -5,12 +5,12 @@
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-@using (Html.BeginForm("edit","user"))
+@using (Html.BeginForm("edit", "user", FormMethod.Post, new {@class="form-horizontal" }))
 {
     @Html.EditorForModel()
-    <p>
-        <input type="submit" value="Save" />
-    </p>
+    <div class="control-group">
+        <div class="controls">
+        <input type="submit" value="Save" class="btn btn-primary"/> @Html.ActionLink("Back to list", "index", null, new { @class = "btn" })
+        </div>
+    </div>
 }
-    @Html.ActionLink("Back to List", "Index")
-</div>
