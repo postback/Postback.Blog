@@ -3,16 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using StructureMap;
+using Microsoft.Practices.ServiceLocation;
 
 namespace Postback.Blog.App.DependencyResolution
 {
-    public class StructureMapDependencyResolver : IDependencyResolver
+    public class ServiceLocatorDependencyResolver : IDependencyResolver
     {
-        private readonly IContainer container;
-
-        public StructureMapDependencyResolver(IContainer container)
+        public ServiceLocatorDependencyResolver()
         {
-            this.container = container;
         }
 
         public object GetService(Type serviceType)
@@ -22,11 +20,11 @@ namespace Postback.Blog.App.DependencyResolution
             {
                 if (serviceType.IsAbstract || serviceType.IsInterface)
                 {
-                    return container.TryGetInstance(serviceType);
+                    return ServiceLocator.Current.GetInstance(serviceType);
                 }
                 else
                 {
-                    return container.GetInstance(serviceType);
+                    return ServiceLocator.Current.GetInstance(serviceType);
                 }
             }
             catch 
@@ -38,7 +36,7 @@ namespace Postback.Blog.App.DependencyResolution
 
         public IEnumerable<object> GetServices(Type serviceType)
         {
-            return container.GetAllInstances<object>().Where(s => s.GetType() == serviceType);
+            return ServiceLocator.Current.GetAllInstances<object>().Where(s => s.GetType() == serviceType);
         }
     }
 }

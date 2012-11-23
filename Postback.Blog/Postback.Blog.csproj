@@ -179,6 +179,7 @@
     <Compile Include="App\Bootstrap\BaseHttpModule.cs" />
     <Compile Include="App\Bootstrap\SquishItBootstrap.cs" />
     <Compile Include="App\Bootstrap\ServiceLocatorModule.cs" />
+    <Compile Include="App\Bootstrap\StartUpModule.cs" />
     <Compile Include="App\Bootstrap\ValidationBoostrap.cs" />
     <Compile Include="App\Bootstrap\MvcBoostrap.cs" />
     <Compile Include="App\Config\MappingProfile.cs" />
@@ -193,7 +194,6 @@
     <Compile Include="App\DependencyResolution\DependencyRegistrar.cs" />
     <Compile Include="App\Data\IRepository.cs" />
     <Compile Include="App\Data\Repository.cs" />
-    <Compile Include="App\Bootstrap\Bootstrapper.cs" />
     <Compile Include="App\Mapping\PasswordResolver.cs" />
     <Compile Include="App\Mapping\TagResolver.cs" />
     <Compile Include="App\Mapping\ReadableDateFormatter.cs" />
@@ -237,7 +237,7 @@
     <Compile Include="Controllers\AssetController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\PostController.cs" />
-    <Compile Include="App\DependencyResolution\StructureMapDependencyResolver.cs" />
+    <Compile Include="App\DependencyResolution\ServiceLocatorDependencyResolver.cs" />
     <Compile Include="Controllers\RssController.cs" />
     <Compile Include="DependencyResolution\IoC.cs" />
     <Compile Include="DependencyResolution\SmDependencyResolver.cs" />

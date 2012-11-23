@@ -9,17 +9,8 @@ namespace Postback.Blog
     {
         protected void Application_Start()
         {
-            InitializeContainer();
-
-            Bootstrapper.StartUp();
+            DependencyResolver.SetResolver(new ServiceLocatorDependencyResolver());
         }
 
-        private static void InitializeContainer()
-        {
-            //Paradox is that we are implicitly using some dependencies here, while the purpose of this code is to do dependency injection
-            DependencyRegistrar.EnsureDependenciesRegistered();
-            var container = ObjectFactory.Container;
-            DependencyResolver.SetResolver(new StructureMapDependencyResolver(container));
-        }
     }
 }

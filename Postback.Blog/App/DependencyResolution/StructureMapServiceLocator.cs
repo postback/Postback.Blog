@@ -5,6 +5,7 @@ using System.Web.WebPages;
 using Microsoft.Practices.ServiceLocation;
 using StructureMap;
 using StructureMap.Graph;
+using Postback.Blog.App.Bootstrap;
 
 namespace Postback.Blog.App.DependencyResolution
 {
@@ -27,6 +28,8 @@ namespace Postback.Blog.App.DependencyResolution
                 y.AssemblyContainingType<StructureMapServiceLocator>();
 
                 y.LookForRegistries();
+
+                y.AddAllTypesOf<IStartUpTask>();
 
                 y.Convention<DefaultConventionScanner>();//Maps things like IAnything to Anything
             }));
