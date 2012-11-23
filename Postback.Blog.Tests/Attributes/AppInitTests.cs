@@ -9,6 +9,7 @@ using Postback.Blog.App.Data;
 using Postback.Blog.Models;
 using Rhino.Mocks;
 using StructureMap;
+using Microsoft.Practices.ServiceLocation;
 
 namespace Postback.Blog.Tests.Attributes
 {
@@ -18,9 +19,12 @@ namespace Postback.Blog.Tests.Attributes
         [Test]
         public void ShouldRedirectToSetupWhenNoUsersYet()
         {
+            var locator = M<IServiceLocator>();
+            ServiceLocator.SetLocatorProvider(() => locator);
+
             var session = M<IPersistenceSession>();
             session.Expect(s => s.All<User>()).Return(new List<User>().AsQueryable()).Repeat.Once();
-            ObjectFactory.Inject(typeof(IPersistenceSession), session);
+            locator.Expect(l => l.GetInstance<IPersistenceSession>()).Return(session);
 
             var user = M<IPrincipal>();
             var httpContext = M<HttpContextBase>();
@@ -39,6 +43,7 @@ namespace Postback.Blog.Tests.Attributes
 
             session.VerifyAllExpectations();
             response.VerifyAllExpectations();
+            locator.VerifyAllExpectations();
         }
 
         [Test]
@@ -47,9 +52,12 @@ namespace Postback.Blog.Tests.Attributes
             var users = new List<User>();
             users.Add(new User());
 
+            var locator = M<IServiceLocator>();
+            ServiceLocator.SetLocatorProvider(() => locator);
+
             var session = M<IPersistenceSession>();
             session.Expect(s => s.All<User>()).Return(users.AsQueryable()).Repeat.Once();
-            ObjectFactory.Inject(typeof(IPersistenceSession), session);
+            locator.Expect(l => l.GetInstance<IPersistenceSession>()).Return(session);
 
             var user = M<IPrincipal>();
             var httpContext = M<HttpContextBase>();
@@ -67,14 +75,18 @@ namespace Postback.Blog.Tests.Attributes
             attribute.OnActionExecuting(filterContext);
 
             response.VerifyAllExpectations();
+            locator.VerifyAllExpectations();
         }
 
         [Test]
         public void ShouldNotCheckRepoWhenUserIsAuthenticated()
         {
+            var locator = M<IServiceLocator>();
+            ServiceLocator.SetLocatorProvider(() => locator);
+
             var session = M<IPersistenceSession>();
             session.Expect(s => s.All<User>()).Return(new List<User>().AsQueryable()).Repeat.Never();
-            ObjectFactory.Inject(typeof(IPersistenceSession), session);
+            locator.Expect(l => l.GetInstance<IPersistenceSession>()).Return(session);
 
             var user = M<IPrincipal>();
             var identity = M<IIdentity>();
@@ -94,6 +106,7 @@ namespace Postback.Blog.Tests.Attributes
 
             session.VerifyAllExpectations();
             identity.VerifyAllExpectations();
+            locator.VerifyAllExpectations();
         }
     }
 }

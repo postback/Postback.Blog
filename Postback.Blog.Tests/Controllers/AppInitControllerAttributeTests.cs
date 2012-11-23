@@ -2,13 +2,16 @@
 using System.Linq;
 using System.Web.Mvc;
 using NUnit.Framework;
+using Rhino.Mocks;
 using Postback.Blog.Areas.Admin.Controllers;
 using Postback.Blog.Models;
+using Microsoft.Practices.ServiceLocation;
+using Postback.Blog.App.Data;
 
 namespace Postback.Blog.Tests.Controllers
 {
     [TestFixture]
-    public class AppInitControllerAttributeTests
+    public class AppInitControllerAttributeTests : BaseTest
     {
         [Test]
         public void AdminControllersHaveAppInitAttributeExceptForSetupAndAuthenticationController()
@@ -29,7 +32,12 @@ namespace Postback.Blog.Tests.Controllers
         [Test]
         public void AuthenticationControllerHasAppInitAttribute()
         {
+            var locator = M<IServiceLocator>();
+            ServiceLocator.SetLocatorProvider(() => locator);
+            locator.Expect(l => l.GetInstance<IPersistenceSession>()).Return(M<IPersistenceSession>());
             Assert.That(Attribute.GetCustomAttribute(typeof(AuthenticationController), typeof(AppInitAttribute)),Is.Not.Null);
+
+            locator.VerifyAllExpectations();
         }
     }
 }

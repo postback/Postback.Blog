@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using Postback.Blog.App.Services;
 using StructureMap;
+using Microsoft.Practices.ServiceLocation;
 
 namespace Postback.Blog.App.Messaging
 {
@@ -25,7 +26,7 @@ namespace Postback.Blog.App.Messaging
         public IEnumerable<IHandler> GetHandlers(Type commandMessageType)
         {
             Type concreteCommandType = genericHandler.MakeGenericType(new Type[] { commandMessageType });
-            var commandImpl = ObjectFactory.GetAllInstances(concreteCommandType); ;
+            var commandImpl = ServiceLocator.Current.GetAllInstances(concreteCommandType); ;
             var commands = commandImpl.Cast<IHandler>();
             return commands;
         }

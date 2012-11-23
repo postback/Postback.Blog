@@ -9,7 +9,6 @@ namespace Postback.Blog {
                                         scan.TheCallingAssembly();
                                         scan.WithDefaultConventions();
                                     });
-            //                x.For<IExample>().Use<Example>();
                         });
             return ObjectFactory.Container;
         }

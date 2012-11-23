@@ -10,7 +10,7 @@ public static class StringExtensions
         {
             return key;
         }
-        return key;// ObjectFactory.GetInstance<ISiteContext>().GetCurrentSite().Localize(key);
+        return key;
     }
 
     public static string Localize(this MvcHtmlString key)

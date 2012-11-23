@@ -150,6 +150,7 @@
     <Compile Include="Attributes\AppInitTests.cs" />
     <Compile Include="Bootstrap\BaseHttpModuleTests.cs" />
     <Compile Include="Bootstrap\BootStrapTests.cs" />
+    <Compile Include="CommandProcessor\HandlerFactoryTests.cs" />
     <Compile Include="CommandProcessor\SimpleMessagingServiceTests.cs" />
     <Compile Include="Controllers\AppInitControllerAttributeTests.cs" />
     <Compile Include="Controllers\AuthenticationControllerTests.cs" />

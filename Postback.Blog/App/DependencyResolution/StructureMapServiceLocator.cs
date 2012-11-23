@@ -28,8 +28,6 @@ namespace Postback.Blog.App.DependencyResolution
 
                 y.LookForRegistries();
 
-                //y.AddAllTypesOf<IRequiresConfigurationOnStartup>();
-
                 y.Convention<DefaultConventionScanner>();//Maps things like IAnything to Anything
             }));
         };

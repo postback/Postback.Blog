@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using Postback.Blog.App.Data;
 using Postback.Blog.Models;
 using StructureMap;
+using Microsoft.Practices.ServiceLocation;
 
 namespace Postback.Blog
 {
@@ -14,7 +15,7 @@ namespace Postback.Blog
 
         public AppInitAttribute()
         {
-            this.session = ObjectFactory.GetInstance<IPersistenceSession>();
+            this.session = ServiceLocator.Current.GetInstance<IPersistenceSession>();
         }
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)

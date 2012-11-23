@@ -1,4 +1,5 @@
-﻿using Postback.Blog.App.DependencyResolution;
+﻿using Microsoft.Practices.ServiceLocation;
+using Postback.Blog.App.DependencyResolution;
 using StructureMap;
 
 namespace Postback.Blog.App.Bootstrap
@@ -13,7 +14,7 @@ namespace Postback.Blog.App.Bootstrap
 
         public static void StartUp()
         {
-            var startUpTasks = ObjectFactory.GetAllInstances<IStartUpTask>();
+            var startUpTasks = ServiceLocator.Current.GetAllInstances<IStartUpTask>();
 
             foreach (var task in startUpTasks)
                 task.Configure();

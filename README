@@ -3,6 +3,9 @@ First intended as an exercise to test out some technologies. It runs my own blog
 
 Things to to
 - Convert everything to ServiceLocator
+- search posts and users
+- clearly label or colour posts published in the future
 - Plugin image picker in editor to fetch stuff from amazon
 - Cache content actions
 - Redeisng front-end a bit (tags, details page, paging)
+- Dahsboard with statsd (?)

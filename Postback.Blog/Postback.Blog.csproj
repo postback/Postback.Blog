@@ -218,8 +218,6 @@
     <Compile Include="App\Services\IHandler.cs" />
     <Compile Include="App\Services\IMessagingService.cs" />
     <Compile Include="App\Services\SimpleMessagingService.cs" />
-    <Compile Include="App_Start\RegisterClientValidationExtensions.cs" />
-    <Compile Include="App_Start\StructuremapMvc.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AuthenticationController.cs" />
     <Compile Include="Areas\Admin\Controllers\PostController.cs" />
@@ -826,6 +824,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="App_Start\" />
     <Folder Include="Areas\Api\Models\" />
     <Folder Include="Areas\Api\Views\Shared\" />
   </ItemGroup>
