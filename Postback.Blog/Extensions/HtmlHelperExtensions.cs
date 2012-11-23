@@ -18,9 +18,9 @@ public static class HtmlHelperExtensions
         var routeData = helper.ViewContext.RouteData;
         var controller = routeData.GetRequiredString("controller");
         var action = routeData.GetRequiredString("action");
-        var area = routeData.Values.ContainsKey("area") ?  routeData.Values["area"] + "/" : string.Empty;
+        var area = routeData.DataTokens.ContainsKey("area") ? routeData.DataTokens["area"] + "/" : string.Empty;
 
-        paging.Uri = () => area + controller + "/" + action;
+        paging.Uri = () => "/" + area.ToLower() + controller.ToLower() + "/" + action.ToLower();
         return helper.Partial(template, paging);
     }
 }
