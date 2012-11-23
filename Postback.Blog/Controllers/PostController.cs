@@ -7,15 +7,16 @@ using Microsoft.Practices.ServiceLocation;
 using Postback.Blog.App.Data;
 using Postback.Blog.Models;
 using Postback.Blog.Models.ViewModels;
+using Raven.Client;
 
 namespace Postback.Blog.Controllers
 {
     public class PostController : Controller
     {
         private const int PAGE_SIZE = 10;
-        private IPersistenceSession session;
+        private IDocumentSession session;
 
-        public PostController(IPersistenceSession session)
+        public PostController(IDocumentSession session)
         {
             this.session = session;
         }
@@ -25,12 +26,12 @@ namespace Postback.Blog.Controllers
         {
             ViewBag.Paging = new PagingView()
                                  {
-                                     ItemCount = session.All<Post>().Count(),
+                                     ItemCount = session.Query<Post>().Count(),
                                      CurrentPage = page.HasValue ? page.Value : 0,
                                      ItemsOnOnePage = PAGE_SIZE
                                  };
             var clock = ServiceLocator.Current.GetInstance<ISystemClock>();
-            return View("index", session.All<Post>().Where(p => p.Active && (p.PublishFrom == null || p.PublishFrom <= clock.Now())).OrderByDescending(p => p.Created).Skip(page.HasValue ? (page.Value - 1) * PAGE_SIZE : 0).Take(PAGE_SIZE).ToList());
+            return View("index", session.Query<Post>().Where(p => p.Active && (p.PublishFrom == null || p.PublishFrom <= clock.Now())).OrderByDescending(p => p.Created).Skip(page.HasValue ? (page.Value - 1) * PAGE_SIZE : 0).Take(PAGE_SIZE).ToList());
         }
 
         [OutputCache(Duration = 1200, VaryByParam = "tag")]
@@ -39,18 +40,18 @@ namespace Postback.Blog.Controllers
             ViewBag.Tag = tag;
             ViewBag.Paging = new PagingView()
             {
-                ItemCount = session.All<Post>().Where(p => p.Tags.Any(t => t.Uri == tag)).Count(),
+                ItemCount = session.Query<Post>().Where(p => p.Tags.Any(t => t.Uri == tag)).Count(),
                 CurrentPage = page.HasValue ? page.Value : 0,
                 ItemsOnOnePage = PAGE_SIZE,
             };
 
-            return View(session.All<Post>().Where(p => p.Tags.Any(t => t.Uri == tag)).OrderByDescending(p => p.Created).Skip(page.HasValue ? (page.Value - 1) * PAGE_SIZE : 0).Take(PAGE_SIZE).ToList());
+            return View(session.Query<Post>().Where(p => p.Tags.Any(t => t.Uri == tag)).OrderByDescending(p => p.Created).Skip(page.HasValue ? (page.Value - 1) * PAGE_SIZE : 0).Take(PAGE_SIZE).ToList());
         }
 
          [OutputCache(Duration = 1200, VaryByParam = "page")]
         public ActionResult Post(string slug)
         {
-            var post = session.FindOne<Post>(p => p.Uri == slug);
+            var post = session.Query<Post>().SingleOrDefault(p => p.Uri == slug);
             if (post != null && post.Active && (post.PublishFrom == null || post.PublishFrom <= DateTime.Now) || HttpContext.User.Identity.IsAuthenticated)
             {
                 return View(post);

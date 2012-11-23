@@ -11,9 +11,6 @@ namespace Postback.Blog.App.Data
     {
         public RavenRegistry()
         {
-            For<IPersistenceSession>()
-                .Use<RavenSession>();
-
             For<IDocumentStore>().Use(InitDocumentStore());
             For<IDocumentSession>()
                 .HybridHttpOrThreadLocalScoped()

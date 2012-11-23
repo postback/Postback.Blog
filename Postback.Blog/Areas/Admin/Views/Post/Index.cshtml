@@ -5,10 +5,11 @@
 
 <div class="navbar">
   <div class="navbar-inner">
-    <form class="navbar-form pull-left">
-      <input type="text" class="span2" placeholder="Search a post">
-      <button type="submit" class="btn">Search</button>
-    </form>
+      @using (Html.BeginForm("index", "post", FormMethod.Get, new { @class = "navbar-form pull-left" }))
+      {
+        <input type="text" class="span2" placeholder="Search a post" name="q">
+        <button type="submit" class="btn">Search</button>
+      }
       @Html.ActionLink("Write new blog post", "edit", "post",null, new {@class="btn btn-primary pull-right" })
     </div>
 </div>

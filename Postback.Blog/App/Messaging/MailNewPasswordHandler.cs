@@ -1,14 +1,15 @@
 ﻿using System.Dynamic;
 using Postback.Blog.App.Data;
 using Postback.Blog.App.Services;
+using Raven.Client;
 
 namespace Postback.Blog.App.Messaging
 {
     public class MailNewPasswordHandler : Handler<NewPasswordMessage>
     {
-        private IPersistenceSession session;
+        private IDocumentSession session;
 
-        public MailNewPasswordHandler(IPersistenceSession session)
+        public MailNewPasswordHandler(IDocumentSession session)
         {
             this.session = session;
         }

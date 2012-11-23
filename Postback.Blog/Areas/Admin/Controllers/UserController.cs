@@ -6,29 +6,31 @@ using Postback.Blog.App.Data;
 using Postback.Blog.Areas.Admin.Models;
 using Postback.Blog.Models;
 using Postback.Blog.Models.ViewModels;
+using Raven.Client;
+using Microsoft.Practices.ServiceLocation;
 
 namespace Postback.Blog.Areas.Admin.Controllers
 {
     [Authorize]
     public class UserController : Controller
     {
-        private IPersistenceSession session;
+        private IDocumentSession session;
 
-        public UserController(IPersistenceSession session)
+        public UserController(IDocumentSession session)
         {
             this.session = session;
         }
 
         public ActionResult Index(int? page)
         {
-            var users = this.session.All<User>()
+            var users = this.session.Query<User>()
                 .Skip(page.HasValue ? ((page.Value - 1)*Settings.PageSize):0)
                 .Take(Settings.PageSize)
                 .ToList();
 
             ViewBag.Paging = new PagingView()
             {
-                ItemCount = session.All<User>().Count(),
+                ItemCount = session.Query<User>().Count(),
                 CurrentPage = page.HasValue ? page.Value : 0,
                 ItemsOnOnePage = Settings.PageSize
             };
@@ -40,7 +42,7 @@ namespace Postback.Blog.Areas.Admin.Controllers
 
         public ActionResult Edit(string id)
         {
-            var user = session.FindOne<User>(u => u.Id == id);
+            var user = session.Query<User>().SingleOrDefault(u => u.Id == id);
             if(user != null)
             {
                 return View(Mapper.Map<User, UserEditModel>(user));
@@ -55,7 +57,8 @@ namespace Postback.Blog.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 var user = Mapper.Map<UserEditModel, User>(model);
-                session.Save(user);
+                session.Store(user);
+                session.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -65,10 +68,11 @@ namespace Postback.Blog.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Delete(string id)
         {
-            var user = session.FindOne<User>(u => u.Id == id);
+            var user = session.Query<User>().SingleOrDefault(u => u.Id == id);
             if(user != null && user.Email != HttpContext.User.Identity.Name)
             {
                 session.Delete<User>(user);
+                session.SaveChanges();
             }
 
             return RedirectToAction("Index");

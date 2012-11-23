@@ -6,29 +6,32 @@ using Postback.Blog.App.Data;
 using Postback.Blog.Areas.Admin.Models;
 using Postback.Blog.Models;
 using Postback.Blog.Models.ViewModels;
+using Raven.Client.Document;
+using Raven.Client;
+using Microsoft.Practices.ServiceLocation;
 
 namespace Postback.Blog.Areas.Admin.Controllers
 {
     [Authorize]
     public class PostController : Controller
     {
-        private IPersistenceSession session;
+        private IDocumentSession session;
 
-        public PostController(IPersistenceSession session)
+        public PostController()
         {
-            this.session = session;
+            this.session = ServiceLocator.Current.GetInstance < IDocumentSession>();
         }
 
-        public ActionResult Index(int? page)
+        public ActionResult Index(int? page, string q)
         {
-            var posts = this.session.All<Post>()
+            var posts = this.session.Query<Post>()
                 .OrderByDescending(p => p.Created)
                 .Skip(page.HasValue ? ((page.Value - 1) * Settings.PageSize) : 0)
                 .Take(Settings.PageSize).ToList();
 
             ViewBag.Paging = new PagingView()
             {
-                ItemCount = session.All<Post>().Count(),
+                ItemCount = session.Query<Post>().Count(),
                 CurrentPage = page.HasValue ? page.Value : 0,
                 ItemsOnOnePage = Settings.PageSize
             };
@@ -41,7 +44,7 @@ namespace Postback.Blog.Areas.Admin.Controllers
 
         public ActionResult Edit(string id)
         {
-            var post = session.FindOne<Post>(u => u.Id == id);
+            var post = session.Query<Post>().SingleOrDefault(u => u.Id == id);
             if (post != null)
             {
                 return View(Mapper.Map<Post, PostEditModel>(post));
@@ -56,7 +59,8 @@ namespace Postback.Blog.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 var post = Mapper.Map<PostEditModel, Post>(model);
-                session.Save<Post>(post);
+                session.Store(post);
+                session.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -66,10 +70,11 @@ namespace Postback.Blog.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Delete(string id)
         {
-            var post = session.FindOne<Post>(u => u.Id == id);
+            var post = session.Query<Post>().SingleOrDefault(u => u.Id == id);
             if (post != null)
             {
                 session.Delete<Post>(post);
+                session.SaveChanges();
             }
 
             return RedirectToAction("Index");
