@@ -58,6 +58,8 @@ namespace Postback.Blog.Tests.Controllers
             user.Email = email;
             user.PasswordSalt = salt;
             user.PasswordHashed = "hashedpassword";
+
+            SetupData(s => s.Store(user));
             
             var crypto = M<ICryptographer>();
             crypto.Expect(c => c.GetPasswordHash(pass, salt)).Return("hashedpassword").Repeat.Once();
@@ -91,7 +93,7 @@ namespace Postback.Blog.Tests.Controllers
         public void IndexActionAuthenticatesRedirectsToQueryStringParameterWhenAuthenticationModelIsValid()
         {
             var user = new User();
-            user.Email = string.Empty;
+            user.Email = "e";
             user.PasswordSalt = string.Empty;
             user.PasswordHashed = "hashedpassword";
 
