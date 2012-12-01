@@ -8,3 +8,4 @@ Things to to
 - Cache content actions
 - Redeisng front-end a bit (tags, details page, paging)
 - Dahsboard with statsd (?)
+- get rid of IDocumentSession and move the ravensession inside the controllers

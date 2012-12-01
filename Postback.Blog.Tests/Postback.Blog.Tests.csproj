@@ -154,12 +154,13 @@
     <Compile Include="Controllers\AppInitControllerAttributeTests.cs" />
     <Compile Include="Controllers\AuthenticationControllerTests.cs" />
     <Compile Include="BaseTest.cs" />
+    <Compile Include="Controllers\BaseRavenControllerTests.cs" />
     <Compile Include="Controllers\UserControllerTest.cs" />
     <Compile Include="Controllers\SetupControllerTest.cs" />
     <Compile Include="Controllers\DashboardControllerTests.cs" />
     <Compile Include="Data\AuditableEntityListenerTests.cs" />
-    <Compile Include="Data\RavenBaseTest.cs" />
-    <Compile Include="Data\RavenSessionTests.cs" />
+    <Compile Include="Data\BaseRavenTest.cs" />
+    <Compile Include="Data\WaitForNonStaleResults.cs" />
     <Compile Include="DependencyResolution\IoC.cs" />
     <Compile Include="DI\DependencyRegistrationTests.cs" />
     <Compile Include="DI\StructureMapServiceLocatorTests.cs" />

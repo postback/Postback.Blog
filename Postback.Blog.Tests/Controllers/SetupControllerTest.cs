@@ -12,47 +12,66 @@ using System.Collections.Generic;
 using Rhino.Mocks;
 using StructureMap;
 using Microsoft.Practices.ServiceLocation;
+using Raven.Client;
+using Postback.Blog.Tests.Data;
 
 namespace Postback.Blog.Tests.Controllers
 {
     [TestFixture]
-    public class SetupControllerTest : BaseTest
+    public class SetupControllerTest : BaseRavenControllerTests
     {
-        [SetUp]
+        private IDocumentStore Store { get; set; }
+
+        [TestFixtureSetUp]
         public void SetUp()
         {
-            M<ICryptographer>();
+            Store = NewStore();
+        }
+
+        [TestFixtureTearDown]
+        public void TearDown()
+        {
+            Store.Dispose();
         }
 
         [Test]
         public void IndexShouldReturnView()
         {
-            var session = M<IPersistenceSession>();
-            session.Expect(s => s.All<User>()).Return(new List<User>().AsQueryable()).Repeat.Once();
-            var controller = new SetupController(session);
+            var locator = M<IServiceLocator>();
+            ServiceLocator.SetLocatorProvider(() => locator);
+
+            var session = Store.OpenSession();
+            locator.Expect(l => l.GetInstance<IDocumentSession>()).Return(session);
+
+            var controller = new SetupController();
 
             var result = controller.Index() as ViewResult;
 
             Assert.That(result,Is.Not.Null);
             Assert.That(result.Model, Is.InstanceOf(typeof(InitialSetupModel)));
-
-            session.VerifyAllExpectations();
         }
 
         [Test]
         public void IndexShouldRedirectWhenThereAreUsers()
         {
-            var session = M<IPersistenceSession>();
-            var users = new List<User>();
-            users.Add(new User());
-            session.Expect(s => s.All<User>()).Return(users.AsQueryable()).Repeat.Once();
+            var locator = M<IServiceLocator>();
+            ServiceLocator.SetLocatorProvider(() => locator);
 
-            var controller = new SetupController(session);
+            var session = Store.OpenSession();
+            locator.Expect(l => l.GetInstance<IDocumentSession>()).Return(session);
+
+            var user = new User();
+            session.Store(user);
+            session.SaveChanges();
+
+            var controller = new SetupController();
 
             var result = controller.Index();
 
             result.AssertActionRedirect().ToController("authentication").ToAction("index");
-            session.VerifyAllExpectations();
+
+            session.Delete(user);
+            session.SaveChanges();
         }
 
         [Test]
@@ -63,18 +82,18 @@ namespace Postback.Blog.Tests.Controllers
             ServiceLocator.SetLocatorProvider(() => locator);
             locator.Expect(l => l.GetInstance<ICryptographer>()).Return(crypto);
 
-            var session = M<IPersistenceSession>();
-            session.Expect(s => s.Save<User>(Arg<User>.Is.Anything)).Repeat.Once();
-            var users = new List<User>();
-            users.Add(new User());
+            var session = Store.OpenSession();
+            locator.Expect(l => l.GetInstance<IDocumentSession>()).Return(session);
 
-            var controller = new SetupController(session);
+            var controller = new SetupController();
             var model = new InitialSetupModel { Email = "john@doe.com", Password = "test", PasswordConfirm = "test" };
 
             var result = controller.Index(model);
 
             result.AssertActionRedirect().ToController("authentication").ToAction("index");
-            session.VerifyAllExpectations();
+
+            session.Delete(session.Query<User>().First());
+            session.SaveChanges();
         }
     }
 }

@@ -13,9 +13,9 @@ namespace Postback.Blog.Areas.Admin.Controllers
     {
         private IDocumentSession session;
 
-        public SetupController(IDocumentSession session)
+        public SetupController()
         {
-            this.session = session;
+            this.session = ServiceLocator.Current.GetInstance<IDocumentSession>();
         }
 
         public ActionResult Index()

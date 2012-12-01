@@ -12,16 +12,33 @@ using Postback.Blog.Areas.Admin.Controllers;
 using Postback.Blog.Models;
 using Postback.Blog.Areas.Admin.Models;
 using Rhino.Mocks;
+using Raven.Client;
+using Postback.Blog.Tests.Data;
+using Raven.Client.Embedded;
 
 namespace Postback.Blog.Tests.Controllers
 {
     [TestFixture]
-    public class AuthenticationControllerTests : BaseTest
+    public class AuthenticationControllerTests : BaseRavenControllerTests
     {
+        private EmbeddableDocumentStore Store { get; set; }
+
+        [TestFixtureSetUp]
+        public void SetUp()
+        {
+            Store = NewStore();
+        }
+
+        [TestFixtureTearDown]
+        public void TearDown()
+        {
+            Store.Dispose();
+        }
+
         [Test]
         public void IndexShouldReturnViewResultWithAuthenticationModel()
         {
-            var controller = new AuthenticationController(M<ICryptographer>(),M<IPersistenceSession>(),M<IAuth>(),M<IMessagingService>());
+            var controller = new AuthenticationController(Store.OpenSession(), M<ICryptographer>(), M<IAuth>(), M<IMessagingService>());
             var result = controller.Index();
             Assert.That(result, Is.InstanceOf(typeof(ViewResult)));
 
@@ -37,16 +54,13 @@ namespace Postback.Blog.Tests.Controllers
             var salt = "salt";
             var pass = "pass";
 
-            var user = M<User>();
+            var user = new User();
             user.Email = email;
             user.PasswordSalt = salt;
             user.PasswordHashed = "hashedpassword";
             
             var crypto = M<ICryptographer>();
             crypto.Expect(c => c.GetPasswordHash(pass, salt)).Return("hashedpassword").Repeat.Once();
-
-            var session = M<IPersistenceSession>();
-            session.Expect(s => s.FindOne<User>(Arg<Expression<Func<User, bool>>>.Is.Anything)).Return(user).Repeat.Once();
 
             var auth = M<IAuth>();
             auth.Expect(a => a.DoAuth(email, true)).Repeat.Once();
@@ -57,7 +71,7 @@ namespace Postback.Blog.Tests.Controllers
             request.Expect(c => c.QueryString).Return(new NameValueCollection());
             context.Expect(c => c.Request).Return(request);
 
-            var controller = new AuthenticationController(crypto, session,auth,M<IMessagingService>());
+            var controller = new AuthenticationController(Store.OpenSession(),crypto,auth,M<IMessagingService>());
             controller.ControllerContext = new ControllerContext(context, new RouteData(), controller);
             
             var model = M<AuthenticationModel>();
@@ -68,7 +82,6 @@ namespace Postback.Blog.Tests.Controllers
 
             result.AssertActionRedirect().ToController("dashboard").ToAction("index");
 
-            session.VerifyAllExpectations();
             crypto.VerifyAllExpectations();
             auth.VerifyAllExpectations();
 
@@ -77,16 +90,15 @@ namespace Postback.Blog.Tests.Controllers
         [Test]
         public void IndexActionAuthenticatesRedirectsToQueryStringParameterWhenAuthenticationModelIsValid()
         {
-            var user = M<User>();
+            var user = new User();
             user.Email = string.Empty;
             user.PasswordSalt = string.Empty;
             user.PasswordHashed = "hashedpassword";
 
+            SetupData(s => s.Store(user));
+
             var crypto = M<ICryptographer>();
             crypto.Expect(c => c.GetPasswordHash(Arg<string>.Is.Anything, (Arg<string>.Is.Anything))).Return("hashedpassword");
-
-            var session = M<IPersistenceSession>();
-            session.Expect(s => s.FindOne<User>(Arg<Expression<Func<User, bool>>>.Is.Anything)).Return(user);
 
             var auth = M<IAuth>();
 
@@ -98,7 +110,7 @@ namespace Postback.Blog.Tests.Controllers
             request.Expect(c => c.QueryString).Return(qstrings);
             context.Expect(c => c.Request).Return(request);
 
-            var controller = new AuthenticationController(crypto, session, auth, M<IMessagingService>());
+            var controller = new AuthenticationController(Store.OpenSession(),crypto, auth, M<IMessagingService>());
             controller.ControllerContext = new ControllerContext(context, new RouteData(), controller);
 
             var model = M<AuthenticationModel>();
@@ -115,7 +127,7 @@ namespace Postback.Blog.Tests.Controllers
         [Test]
         public void IndexActionReturnToViewWhenAuthenticationModelIsInValid()
         {
-            var controller = new AuthenticationController(M<ICryptographer>(), M<IPersistenceSession>(), M<IAuth>(), M<IMessagingService>());
+            var controller = new AuthenticationController(Store.OpenSession(), M<ICryptographer>(), M<IAuth>(), M<IMessagingService>());
             var result = controller.Index(M<AuthenticationModel>());
 
             var viewresult = result.AssertViewRendered();

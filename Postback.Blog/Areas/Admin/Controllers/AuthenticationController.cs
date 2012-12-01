@@ -20,10 +20,10 @@ namespace Postback.Blog.Areas.Admin.Controllers
         private readonly IAuth auth;
         private readonly IMessagingService messaging;
 
-        public AuthenticationController(ICryptographer cryptographer, IAuth auth, IMessagingService messaging)
+        public AuthenticationController(IDocumentSession session, ICryptographer cryptographer, IAuth auth, IMessagingService messaging)
         {
             crypto = cryptographer;
-            this.session = ServiceLocator.Current.GetInstance<IDocumentSession>();
+            this.session = session;
             this.auth = auth;
             this.messaging = messaging;
         }

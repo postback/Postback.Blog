@@ -7,32 +7,24 @@ using Postback.Blog.App.DependencyResolution;
 using Raven.Client.Embedded;
 using StructureMap;
 using StructureMap.Configuration.DSL;
+using Postback.Blog.Tests.Data;
 
 namespace Postback.Blog.Tests.DI
 {
     [TestFixture]
-    public class StructureMapServiceLocatorTests
+    public class StructureMapServiceLocatorTests : BaseRavenTest
     {
         private EmbeddableDocumentStore Store { get; set; }
 
         [TestFixtureSetUp]
         public void Setup()
         {
-            Store = new EmbeddableDocumentStore
-            {
-                Configuration =
-                {
-                    RunInUnreliableYetFastModeThatIsNotSuitableForProduction
-                        = true,
-                    DefaultStorageTypeName = "munin",
-                    RunInMemory = true,
-                },
-                UseEmbeddedHttpServer = true,
-            };
+            Store = NewStore();
+
             RavenRegistry.InitDocumentStore = () =>
-                                                  {
-                                                      return Store;
-                                                  };
+            {
+                return Store;
+            };
         }
 
         [TestFixtureTearDown]

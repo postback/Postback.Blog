@@ -7,12 +7,27 @@ using Postback.Blog.Areas.Admin.Controllers;
 using Postback.Blog.Models;
 using Microsoft.Practices.ServiceLocation;
 using Postback.Blog.App.Data;
+using Raven.Client;
 
 namespace Postback.Blog.Tests.Controllers
 {
     [TestFixture]
-    public class AppInitControllerAttributeTests : BaseTest
+    public class AppInitControllerAttributeTests : BaseRavenControllerTests
     {
+        private IDocumentStore Store { get; set; }
+
+        [TestFixtureSetUp]
+        public void SetUp()
+        {
+            Store = NewStore();
+        }
+
+        [TestFixtureTearDown]
+        public void TearDown()
+        {
+            Store.Dispose();
+        }
+
         [Test]
         public void AdminControllersHaveAppInitAttributeExceptForSetupAndAuthenticationController()
         {
@@ -34,8 +49,8 @@ namespace Postback.Blog.Tests.Controllers
         {
             var locator = M<IServiceLocator>();
             ServiceLocator.SetLocatorProvider(() => locator);
-            locator.Expect(l => l.GetInstance<IPersistenceSession>()).Return(M<IPersistenceSession>());
-            Assert.That(Attribute.GetCustomAttribute(typeof(AuthenticationController), typeof(AppInitAttribute)),Is.Not.Null);
+            locator.Expect(l => l.GetInstance<IDocumentSession>()).Return(Store.OpenSession());
+            Assert.That(Attribute.GetCustomAttribute(typeof(AuthenticationController), typeof(AppInitAttribute)), Is.Not.Null);
 
             locator.VerifyAllExpectations();
         }

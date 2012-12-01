@@ -7,11 +7,13 @@ using Raven.Database.Server;
 
 namespace Postback.Blog.Tests.Data
 {
-    public class RavenBaseTest : BaseTest, IDisposable
+    public class BaseRavenTest : BaseTest, IDisposable
     {
+        protected EmbeddableDocumentStore store;
+
         public EmbeddableDocumentStore NewStore()
         {
-            var store = new EmbeddableDocumentStore
+            store = new EmbeddableDocumentStore
             {
                 Configuration =
                 {
@@ -25,6 +27,7 @@ namespace Postback.Blog.Tests.Data
             ModifyStore(store);
             ModifyConfiguration(store.Configuration);
 
+            store.RegisterListener(new WaitForNonStaleResults());
             store.Initialize();
 
             CreateDefaultIndexes(store);
@@ -48,6 +51,7 @@ namespace Postback.Blog.Tests.Data
 
         public virtual void Dispose()
         {
+            store.Dispose();
         }
     }
 }

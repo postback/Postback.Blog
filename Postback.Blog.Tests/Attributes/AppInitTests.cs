@@ -10,21 +10,36 @@ using Postback.Blog.Models;
 using Rhino.Mocks;
 using StructureMap;
 using Microsoft.Practices.ServiceLocation;
+using Raven.Client;
+using Postback.Blog.Tests.Data;
 
 namespace Postback.Blog.Tests.Attributes
 {
     [TestFixture]
-    public class AppInitTests : BaseTest
+    public class AppInitTests : BaseRavenTest
     {
+        private IDocumentStore Store { get; set; }
+
+        [TestFixtureSetUp]
+        public void SetUp()
+        {
+            Store = NewStore();
+        }
+
+        [TestFixtureTearDown]
+        public void TearDown()
+        {
+            Store.Dispose();
+        }
+
         [Test]
         public void ShouldRedirectToSetupWhenNoUsersYet()
         {
             var locator = M<IServiceLocator>();
             ServiceLocator.SetLocatorProvider(() => locator);
 
-            var session = M<IPersistenceSession>();
-            session.Expect(s => s.All<User>()).Return(new List<User>().AsQueryable()).Repeat.Once();
-            locator.Expect(l => l.GetInstance<IPersistenceSession>()).Return(session);
+            var session = Store.OpenSession();
+            locator.Expect(l => l.GetInstance<IDocumentSession>()).Return(session);
 
             var user = M<IPrincipal>();
             var httpContext = M<HttpContextBase>();
@@ -41,7 +56,6 @@ namespace Postback.Blog.Tests.Attributes
 
             attribute.OnActionExecuting(filterContext);
 
-            session.VerifyAllExpectations();
             response.VerifyAllExpectations();
             locator.VerifyAllExpectations();
         }
@@ -49,15 +63,14 @@ namespace Postback.Blog.Tests.Attributes
         [Test]
         public void ShouldNotRedirectToSetupWhenThereAreUsers()
         {
-            var users = new List<User>();
-            users.Add(new User());
-
             var locator = M<IServiceLocator>();
             ServiceLocator.SetLocatorProvider(() => locator);
 
-            var session = M<IPersistenceSession>();
-            session.Expect(s => s.All<User>()).Return(users.AsQueryable()).Repeat.Once();
-            locator.Expect(l => l.GetInstance<IPersistenceSession>()).Return(session);
+            var session = Store.OpenSession();
+            var userdoc = new User();
+            session.Store(userdoc);
+            session.SaveChanges();
+            locator.Expect(l => l.GetInstance<IDocumentSession>()).Return(session);
 
             var user = M<IPrincipal>();
             var httpContext = M<HttpContextBase>();
@@ -76,6 +89,9 @@ namespace Postback.Blog.Tests.Attributes
 
             response.VerifyAllExpectations();
             locator.VerifyAllExpectations();
+
+            session.Delete(userdoc);
+            session.SaveChanges();
         }
 
         [Test]
@@ -84,9 +100,8 @@ namespace Postback.Blog.Tests.Attributes
             var locator = M<IServiceLocator>();
             ServiceLocator.SetLocatorProvider(() => locator);
 
-            var session = M<IPersistenceSession>();
-            session.Expect(s => s.All<User>()).Return(new List<User>().AsQueryable()).Repeat.Never();
-            locator.Expect(l => l.GetInstance<IPersistenceSession>()).Return(session);
+            var session = Store.OpenSession();
+            locator.Expect(l => l.GetInstance<IDocumentSession>()).Return(session);
 
             var user = M<IPrincipal>();
             var identity = M<IIdentity>();
@@ -104,7 +119,6 @@ namespace Postback.Blog.Tests.Attributes
 
             attribute.OnActionExecuting(filterContext);
 
-            session.VerifyAllExpectations();
             identity.VerifyAllExpectations();
             locator.VerifyAllExpectations();
         }

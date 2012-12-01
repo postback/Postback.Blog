@@ -4,13 +4,29 @@ using NUnit.Framework;
 using Postback.Blog.App.Data;
 using Postback.Blog.App.Mvc;
 using Postback.Blog.Models;
+using Postback.Blog.Tests.Data;
+using Raven.Client;
 using Rhino.Mocks;
 
 namespace Postback.Blog.Tests.Mvc
 {
     [TestFixture]
-    public class ConventionModelBinderProviderTests : BaseTest
+    public class ConventionModelBinderProviderTests : BaseRavenTest
     {
+        private IDocumentStore Store { get; set; }
+
+        [TestFixtureSetUp]
+        public void SetUp()
+        {
+            Store = NewStore();
+        }
+
+        [TestFixtureTearDown]
+        public void TearDown()
+        {
+            Store.Dispose();
+        }
+
         [Test]
         public void DoesNotLoadForNonContentOrNonEntity()
         {
@@ -31,7 +47,7 @@ namespace Postback.Blog.Tests.Mvc
         {
             //Arrange
             var locator = M<IServiceLocator>();
-            locator.Expect(l => l.GetInstance(typeof(EntityModelBinder<BarEntity>))).Return(new EntityModelBinder<BarEntity>(S<IPersistenceSession>())).Repeat.Once();
+            locator.Expect(l => l.GetInstance(typeof(EntityModelBinder<BarEntity>))).Return(new EntityModelBinder<BarEntity>(Store.OpenSession())).Repeat.Once();
             ServiceLocator.SetLocatorProvider(() => locator);
             var provider = new ConventionModelBinderProvider();
 
