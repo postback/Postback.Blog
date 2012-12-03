@@ -184,10 +184,11 @@
     <Compile Include="App\Bootstrap\MvcBoostrap.cs" />
     <Compile Include="App\Config\MappingProfile.cs" />
     <Compile Include="App\Data\AuditableEntityListener.cs" />
-    <Compile Include="App\Data\Indexes\PostIndex.cs" />
+    <Compile Include="App\Data\Indexes\PostSearchIndex.cs" />
     <Compile Include="App\Data\PostsByTagIndex.cs" />
     <Compile Include="App\Data\PredicateBuilder.cs" />
     <Compile Include="App\Data\RavenRegistry.cs" />
+    <Compile Include="App\Data\RavenStartup.cs" />
     <Compile Include="App\DependencyResolution\StructureMapServiceLocator.cs" />
     <Compile Include="App\Mapping\MappingProfile.cs" />
     <Compile Include="App\DependencyResolution\AppRegistry.cs" />

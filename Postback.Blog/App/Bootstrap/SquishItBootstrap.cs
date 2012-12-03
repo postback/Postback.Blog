@@ -23,6 +23,7 @@ namespace Postback.Blog.App.Bootstrap
             //back-end
             Bundle.JavaScript()
             .Add("~/js/lib/modernizr-2.6.2.js")
+            .Add("~/js/lib/jquery-1.8.2.min.js")
             .Add("~/js/lib/jquery.validate.js")
             .Add("~/js/lib/jquery.validate.unobtrusive.js")
             .Add("~/js/lib/bootstrap.min.js")
