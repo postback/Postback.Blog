@@ -30,7 +30,8 @@ namespace Postback.Blog.App.Data
                                     into g
                                     select new
                                     {
-                                        Tag = g.Key
+                                        Tag = g.Key,
+                                        PostId = g.Select(r => r.PostId)
                                     };
         }
     }
