@@ -1,13 +1,14 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
-
+using Raven.Client.Linq;
 using Postback.Blog.App.Data;
 using Postback.Blog.Areas.Admin.Models;
 using Postback.Blog.Models;
 using Postback.Blog.Models.ViewModels;
 using Raven.Client;
 using Microsoft.Practices.ServiceLocation;
+using Postback.Blog.App.Data.Indexes;
 
 namespace Postback.Blog.Areas.Admin.Controllers
 {
@@ -38,6 +39,13 @@ namespace Postback.Blog.Areas.Admin.Controllers
             var models = users.Select(Mapper.Map<User, UserViewModel>).ToList();
 
             return View(models);
+        }
+
+        public JsonResult Search(string query)
+        {
+            var users = session.Query<UserSearchIndex.Result, UserSearchIndex>().Search(x => x.Content, query).As<User>().ToList();
+
+            return Json(users);
         }
 
         public ActionResult Edit(string id)

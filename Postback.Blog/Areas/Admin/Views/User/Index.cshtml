@@ -6,7 +6,7 @@
 <div class="navbar">
   <div class="navbar-inner">
     <form class="navbar-form pull-left">
-      <input type="text" class="span2" placeholder="Search a user">
+      <input type="text" class="span2 searchuser" placeholder="Search a user" name="q" data-provide="typeahead">
       <button type="submit" class="btn">Search</button>
     </form>
       @Html.ActionLink("Add a user", "edit", "user",null, new {@class="btn btn-primary pull-right" })
@@ -39,5 +39,26 @@
         }
     </tbody>
 </table>
+
+@section Scripts {
+
+<script type="text/javascript">
+    $(function () {
+        $('.searchuser').typeahead({
+            source: function (typeahead, query) {
+                return $.post('user/search', { query: query }, function (data) {
+                    typeahead.process(data);
+                });
+            },
+            onselect : function(item){
+                location.href = "user/edit/" + item.Id;
+            },
+            property:"Name"
+        });
+    });
+</script>
+
+}
+
 
 @Html.Pager((Postback.Blog.Models.ViewModels.PagingView)ViewBag.Paging)

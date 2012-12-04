@@ -47,12 +47,12 @@
     $(function () {
         $('.searchpost').typeahead({
             source: function (typeahead, query) {
-                return $.post('/admin/post/search', { query: query }, function (data) {
+                return $.post('post/search', { query: query }, function (data) {
                     typeahead.process(data);
                 });
             },
             onselect : function(item){
-                location.href = "/admin/post/edit/" + item.Id;
+                location.href = "post/edit/" + item.Id;
             },
             property:"Title"
         });
