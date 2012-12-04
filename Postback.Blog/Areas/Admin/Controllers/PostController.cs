@@ -8,7 +8,9 @@ using Postback.Blog.Models;
 using Postback.Blog.Models.ViewModels;
 using Raven.Client.Document;
 using Raven.Client;
+using Raven.Client.Linq;
 using Microsoft.Practices.ServiceLocation;
+using Postback.Blog.App.Data.Indexes;
 
 namespace Postback.Blog.Areas.Admin.Controllers
 {
@@ -22,7 +24,7 @@ namespace Postback.Blog.Areas.Admin.Controllers
             this.session = ServiceLocator.Current.GetInstance < IDocumentSession>();
         }
 
-        public ActionResult Index(int? page, string q)
+        public ActionResult Index(int? page)
         {
             var posts = this.session.Query<Post>()
                 .OrderByDescending(p => p.Created)
@@ -40,6 +42,13 @@ namespace Postback.Blog.Areas.Admin.Controllers
                 .ToList();
 
             return View(models);
+        }
+
+        public JsonResult Search(string query) {
+
+            var posts = session.Query<PostSearchIndex.Result, PostSearchIndex>().Search(x => x.Content, query).As<Post>().ToList();
+
+            return Json(posts);
         }
 
         public ActionResult Edit(string id)

@@ -46,11 +46,15 @@
 <script type="text/javascript">
     $(function () {
         $('.searchpost').typeahead({
-            source: function (query, process) {
-                return $.get('/admin/post/search', { query: query }, function (data) {
-                    return process(data.options);
+            source: function (typeahead, query) {
+                return $.post('/admin/post/search', { query: query }, function (data) {
+                    typeahead.process(data);
                 });
-            }
+            },
+            onselect : function(item){
+                location.href = "/admin/post/edit/" + item.Id;
+            },
+            property:"Title"
         });
     });
 </script>

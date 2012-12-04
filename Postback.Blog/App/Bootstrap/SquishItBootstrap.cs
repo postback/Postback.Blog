@@ -27,6 +27,7 @@ namespace Postback.Blog.App.Bootstrap
             .Add("~/js/lib/jquery.validate.js")
             .Add("~/js/lib/jquery.validate.unobtrusive.js")
             .Add("~/js/lib/bootstrap.min.js")
+            .Add("~/js/lib/bootstrap-typeahead.js")
             .Add("~/js/app/admin.js")
             .AsCached("backendscripts", "~/assets/js/backendscripts");
 
