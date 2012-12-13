@@ -191,6 +191,7 @@
     <Compile Include="App\Data\RavenRegistry.cs" />
     <Compile Include="App\Data\RavenStartup.cs" />
     <Compile Include="App\DependencyResolution\StructureMapServiceLocator.cs" />
+    <Compile Include="App\Mapping\IsPublishedResolver.cs" />
     <Compile Include="App\Mapping\MappingProfile.cs" />
     <Compile Include="App\DependencyResolution\AppRegistry.cs" />
     <Compile Include="App\Data\IRepository.cs" />

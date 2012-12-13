@@ -51,7 +51,11 @@ namespace Postback.Blog.Tests.Data
 
         public virtual void Dispose()
         {
-            store.Dispose();
+            if (store != null)
+            {
+                store.Dispose();
+            }
+            
         }
     }
 }

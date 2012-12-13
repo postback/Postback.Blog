@@ -27,10 +27,21 @@
     <tbody>
         @foreach(var post in Model)
         {
-            <tr>
+            var cssclass = string.Empty;
+            var ccslabel = string.Empty;
+            if (!post.IsPublished)
+            {
+                cssclass = "muted";
+                if(post.Active){
+                    ccslabel = "label label-info";
+                }
+            }
+           
+            
+            <tr class="@cssclass">
                 <td>@post.Title</td>
                 <td>@post.Created</td>
-                <td>@post.PublishFrom</td>
+                <td><span class="@ccslabel">@post.PublishFrom</span></td>
                 <td><a href="@Url.Action("edit", new { post.Id })" class="btn btn-info"><i class="icon-white icon-edit" ></i> Edit</a> <a href="/read/@post.Uri" class="btn"><i class="icon-eye-open"></i> Preview</a></td>
                 <td>@using (Html.BeginForm("delete", "post", new { post.Id }))
                     {

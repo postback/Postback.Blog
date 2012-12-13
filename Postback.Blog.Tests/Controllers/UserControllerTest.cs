@@ -50,7 +50,7 @@ namespace Postback.Blog.Tests.Controllers
 
             var controller = new UserController();
             ViewResult result = null;
-            ExecuteAction<UserController>(c => result = c.Index(null) as ViewResult);
+            ExecuteAction<UserController>(c => result = c.Index(null,null) as ViewResult);
 
             Assert.That(result,Is.Not.Null);
             Assert.That(result.Model, Is.InstanceOf(typeof(IList<UserViewModel>)));

@@ -4,6 +4,8 @@ using NBehave.Spec.NUnit;
 using NUnit.Framework;
 using Postback.Blog.Areas.Admin.Models;
 using Postback.Blog.Models;
+using Microsoft.Practices.ServiceLocation;
+using Rhino.Mocks;
 
 namespace Postback.Blog.Tests.Mapping
 {
@@ -60,6 +62,12 @@ namespace Postback.Blog.Tests.Mapping
         [Test]
         public void MapsToViewModelWithSmartDates()
         {
+            var locator = M<IServiceLocator>();
+            ServiceLocator.SetLocatorProvider(() => locator);
+            var clock = M<ISystemClock>();
+            clock.Expect(c => c.Now()).Return(DateTime.Now).Repeat.Once();
+            locator.Expect(l => l.GetInstance<ISystemClock>()).Return(clock).Repeat.Once();
+
             var post = new Post { Id = "some-id", Uri = "some-uri", Title = "Post title", Active = true, Created = new DateTime(2009, 8, 7, 6, 5, 4, DateTimeKind.Local), PublishFrom = new DateTime(2009, 1, 2, 3, 4, 5, DateTimeKind.Local) };
             var model = Mapper.Map<Post, PostViewModel >(post);
 
@@ -69,6 +77,74 @@ namespace Postback.Blog.Tests.Mapping
             model.Uri.ShouldEqual(post.Uri);
             model.Created.ShouldEqual("07 Aug 2009 06:05");
             model.PublishFrom.ShouldEqual("02 Jan 2009 03:04");
+        }
+
+        [Test]
+        public void InActiveIsNotPublished()
+        {
+            var locator = M<IServiceLocator>();
+            ServiceLocator.SetLocatorProvider(() => locator);
+            var clock = M<ISystemClock>();
+            clock.Expect(c => c.Now()).Return(DateTime.Now).Repeat.Never();
+            locator.Expect(l => l.GetInstance<ISystemClock>()).Return(clock).Repeat.Never();
+
+            var post = new Post() { Active = false };
+            var model = Mapper.Map<Post,PostViewModel>(post);
+
+            model.IsPublished.ShouldBeFalse();
+            locator.VerifyAllExpectations();
+            clock.VerifyAllExpectations();
+        }
+
+        [Test]
+        public void ActiveAndFutureIsNotPublished()
+        {
+            var locator = M<IServiceLocator>();
+            ServiceLocator.SetLocatorProvider(() => locator);
+            var clock = M<ISystemClock>();
+            clock.Expect(c => c.Now()).Return(DateTime.Now);
+            locator.Expect(l => l.GetInstance<ISystemClock>()).Return(clock);
+
+            var post = new Post() { Active = true,PublishFrom=DateTime.Now.AddDays(3) };
+            var model = Mapper.Map<Post, PostViewModel>(post);
+
+            model.IsPublished.ShouldBeFalse();
+            locator.VerifyAllExpectations();
+            clock.VerifyAllExpectations();
+        }
+
+        [Test]
+        public void ActiveAndPastIsPublished()
+        {
+            var locator = M<IServiceLocator>();
+            ServiceLocator.SetLocatorProvider(() => locator);
+            var clock = M<ISystemClock>();
+            clock.Expect(c => c.Now()).Return(DateTime.Now);
+            locator.Expect(l => l.GetInstance<ISystemClock>()).Return(clock);
+
+            var post = new Post() { Active = true, PublishFrom = DateTime.Now.AddDays(-3) };
+            var model = Mapper.Map<Post, PostViewModel>(post);
+
+            model.IsPublished.ShouldBeTrue();
+            locator.VerifyAllExpectations();
+            clock.VerifyAllExpectations();
+        }
+
+        [Test]
+        public void ActiveAndNoPublishDate()
+        {
+            var locator = M<IServiceLocator>();
+            ServiceLocator.SetLocatorProvider(() => locator);
+            var clock = M<ISystemClock>();
+            clock.Expect(c => c.Now()).Return(DateTime.Now).Repeat.Never();
+            locator.Expect(l => l.GetInstance<ISystemClock>()).Return(clock).Repeat.Never();
+
+            var post = new Post() { Active = true, PublishFrom = null };
+            var model = Mapper.Map<Post, PostViewModel>(post);
+
+            model.IsPublished.ShouldBeTrue();
+            locator.VerifyAllExpectations();
+            clock.VerifyAllExpectations();
         }
     }
 }
