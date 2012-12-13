@@ -6,6 +6,13 @@ namespace Postback.Blog.Models.ViewModels
 {
     public class PagingView
     {
+        public PagingView()
+        {
+            ItemCount = 1;
+            ItemsOnOnePage = 1;
+            CurrentPage = 1;
+        }
+
         public IList<PagingItem> Items
         {
             get { return items ?? (items = GetItems()); }

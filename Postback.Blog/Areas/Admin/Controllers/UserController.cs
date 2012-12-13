@@ -44,6 +44,7 @@ namespace Postback.Blog.Areas.Admin.Controllers
             else {
                 users = session.Query<UserSearchIndex.Result, UserSearchIndex>().Search(x => x.Content, q).As<User>().ToList();
 
+                ViewBag.Paging = new PagingView();
                 ViewBag.Query = q;
             }
 
