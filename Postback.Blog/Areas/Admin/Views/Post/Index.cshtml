@@ -7,7 +7,7 @@
   <div class="navbar-inner">
       @using (Html.BeginForm("index", "post", FormMethod.Get, new { @class = "navbar-form pull-left" }))
       {
-        <input type="text" class="span2 searchpost" placeholder="Search a post" name="q" data-provide="typeahead">
+        <input type="text" class="span2 searchpost" placeholder="Search a post" name="q" data-provide="typeahead" value="@ViewBag.Query">
         <button type="submit" class="btn">Search</button>
       }
       @Html.ActionLink("Write new blog post", "edit", "post",null, new {@class="btn btn-primary pull-right" })

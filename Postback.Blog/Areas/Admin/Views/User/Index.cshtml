@@ -6,7 +6,7 @@
 <div class="navbar">
   <div class="navbar-inner">
     <form class="navbar-form pull-left">
-      <input type="text" class="span2 searchuser" placeholder="Search a user" name="q" data-provide="typeahead">
+      <input type="text" class="span2 searchuser" placeholder="Search a user" name="q" data-provide="typeahead" value="@ViewBag.Query">
       <button type="submit" class="btn">Search</button>
     </form>
       @Html.ActionLink("Add a user", "edit", "user",null, new {@class="btn btn-primary pull-right" })

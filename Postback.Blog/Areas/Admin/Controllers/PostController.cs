@@ -11,6 +11,7 @@ using Raven.Client;
 using Raven.Client.Linq;
 using Microsoft.Practices.ServiceLocation;
 using Postback.Blog.App.Data.Indexes;
+using System.Collections.Generic;
 
 namespace Postback.Blog.Areas.Admin.Controllers
 {
@@ -24,19 +25,29 @@ namespace Postback.Blog.Areas.Admin.Controllers
             this.session = ServiceLocator.Current.GetInstance < IDocumentSession>();
         }
 
-        public ActionResult Index(int? page)
+        public ActionResult Index(int? page, string q)
         {
-            var posts = this.session.Query<Post>()
+            var posts = new List<Post>();
+
+            if (string.IsNullOrEmpty(q))
+            {
+                posts = this.session.Query<Post>()
                 .OrderByDescending(p => p.Created)
                 .Skip(page.HasValue ? ((page.Value - 1) * Settings.PageSize) : 0)
                 .Take(Settings.PageSize).ToList();
 
-            ViewBag.Paging = new PagingView()
-            {
-                ItemCount = session.Query<Post>().Count(),
-                CurrentPage = page.HasValue ? page.Value : 0,
-                ItemsOnOnePage = Settings.PageSize
-            };
+                ViewBag.Paging = new PagingView()
+                {
+                    ItemCount = session.Query<Post>().Count(),
+                    CurrentPage = page.HasValue ? page.Value : 0,
+                    ItemsOnOnePage = Settings.PageSize
+                };
+            }
+            else {
+                posts = session.Query<PostSearchIndex.Result, PostSearchIndex>().Search(x => x.Content, q).As<Post>().ToList();
+
+                ViewBag.Query = q;
+            }
 
             var models = posts.Select(Mapper.Map<Post, PostViewModel>)
                 .ToList();
