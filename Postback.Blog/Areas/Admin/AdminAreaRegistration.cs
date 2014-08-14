@@ -15,7 +15,7 @@ namespace Postback.Blog.Areas.Admin
         public override void RegisterArea(AreaRegistrationContext context)
         {
             context.MapRoute(
-                "Admin_default",
+                "Admin",
                 "admin/{controller}/{action}/{id}",
                 new { controller="Dashboard", action = "Index", id = UrlParameter.Optional }
             );
