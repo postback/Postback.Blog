@@ -3,26 +3,73 @@
     Layout = "../Shared/_Layout.cshtml";
 }
 
-@Html.ActionLink("New", "edit")
+<div class="navbar">
+  <div class="navbar-inner">
+      @using (Html.BeginForm("index", "post", FormMethod.Get, new { @class = "navbar-form pull-left" }))
+      {
+        <input type="text" class="span2 searchpost" placeholder="Search a post" name="q" data-provide="typeahead" value="@ViewBag.Query">
+        <button type="submit" class="btn">Search</button>
+      }
+      @Html.ActionLink("Write new blog post", "edit", "post",null, new {@class="btn btn-primary pull-right" })
+    </div>
+</div>
 
-<table>
-<tr>
-    <th>Title</th>
-    <th>Created</th>
-    <th>Publish(ed) on</th>
-    <th>&nbsp;</th>
-    <th>&nbsp;</th>
-</tr>
-@foreach(var post in Model)
-{
-    <tr>
-        <td>@post.Title</td>
-        <td>@post.Created</td>
-        <td>@post.PublishFrom</td>
-        <td>@Html.ActionLink("Edit", "edit", new { post.Id }) - <a href="/read/@post.Uri">Preview</a></td>
-        <td>@using (Html.BeginForm("delete","post",new {post.Id})){
-            <input type="submit" value="Delete" onclick="return confirm('Are you sure?')" />
-        }</td>
-    </tr>
-}
+<table class="table table-striped table-bordered  table-hover table-condensed">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Created</th>
+            <th>Publish(ed) on</th>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var post in Model)
+        {
+            var cssclass = string.Empty;
+            var ccslabel = string.Empty;
+            if (!post.IsPublished)
+            {
+                cssclass = "muted";
+                if(post.Active){
+                    ccslabel = "label label-info";
+                }
+            }
+           
+            
+            <tr class="@cssclass">
+                <td>@post.Title</td>
+                <td>@post.Created</td>
+                <td><span class="@ccslabel">@post.PublishFrom</span></td>
+                <td><a href="@Url.Action("edit", new { post.Id })" class="btn btn-info"><i class="icon-white icon-edit" ></i> Edit</a> <a href="/read/@post.Uri" class="btn"><i class="icon-eye-open"></i> Preview</a></td>
+                <td>@using (Html.BeginForm("delete", "post", new { post.Id }))
+                    {
+                    <button type="submit" onclick="return confirm('Are you sure?')" class="btn btn-danger btn-small"><i class="icon-trash icon-white"></i> Delete</button>
+                    }</td>
+            </tr>
+        }
+    </tbody>
 </table>
+
+@section Scripts {
+
+<script type="text/javascript">
+    $(function () {
+        $('.searchpost').typeahead({
+            source: function (typeahead, query) {
+                return $.post('post/search', { query: query }, function (data) {
+                    typeahead.process(data);
+                });
+            },
+            onselect : function(item){
+                location.href = "post/edit/" + item.Id;
+            },
+            property:"Title"
+        });
+    });
+</script>
+
+}
+
+@Html.Pager((Postback.Blog.Models.ViewModels.PagingView)ViewBag.Paging)

@@ -6,10 +6,11 @@ namespace Postback.Blog.Models.ViewModels
 {
     public class PagingView
     {
-        public PagingView(string controller, string action)
+        public PagingView()
         {
-            actionName = action;
-            controllerName = controller;
+            ItemCount = 1;
+            ItemsOnOnePage = 1;
+            CurrentPage = 1;
         }
 
         public IList<PagingItem> Items
@@ -21,12 +22,7 @@ namespace Postback.Blog.Models.ViewModels
         public int ItemsOnOnePage { get; set; }
         public int ItemCount { get; set; }
         public int CurrentPage { get; set; }
-        public string actionName = string.Empty;
-        public string controllerName = string.Empty;
-        public string Uri
-        {
-            get { return "/" + controllerName + "/" + actionName; }
-        }
+        public Func<string> Uri = () => string.Empty;
 
         public IList<PagingItem> GetItems()
         {
@@ -37,7 +33,7 @@ namespace Postback.Blog.Models.ViewModels
             if(pagesCount > 1)
             {
                 //First page, anyway
-                list.Add(new PagingItem { Label = "1", Uri = Uri, Selected = CurrentPage == 1 });
+                list.Add(new PagingItem { Label = "1", Uri = Uri(), Selected = CurrentPage == 1 });
 
                 //Define the range in the middle
                 var startAt = 2;
@@ -60,11 +56,11 @@ namespace Postback.Blog.Models.ViewModels
                 //Add the range
                 for (int i = startAt; i <= endAt; i++)
                 {
-                    list.Add(new PagingItem { Label = i.ToString(), Uri = Uri + "?page=" + i, Selected = CurrentPage == i });
+                    list.Add(new PagingItem { Label = i.ToString(), Uri = Uri() + "?page=" + i, Selected = CurrentPage == i });
                 }
 
                 //Last page, anyway
-                list.Add(new PagingItem { Label = pagesCount.ToString(), Uri = Uri + "?page=" + pagesCount, Selected = CurrentPage == pagesCount });
+                list.Add(new PagingItem { Label = pagesCount.ToString(), Uri = Uri() + "?page=" + pagesCount, Selected = CurrentPage == pagesCount });
             }
 
             return list;

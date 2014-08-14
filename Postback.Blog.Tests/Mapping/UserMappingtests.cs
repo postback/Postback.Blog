@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.Practices.ServiceLocation;
 using NUnit.Framework;
 using Postback.Blog.App.Services;
 using Postback.Blog.Areas.Admin.Models;
@@ -17,7 +18,9 @@ namespace Postback.Blog.Tests.Mapping
             var crypto = M<ICryptographer>();
             crypto.Expect(c => c.CreateSalt()).Return("salt");
             crypto.Expect(c => c.GetPasswordHash("somepassword", "salt")).Return("hashedpassword");
-            ObjectFactory.Inject(typeof(ICryptographer), crypto);
+            var locator = M<IServiceLocator>();
+            ServiceLocator.SetLocatorProvider(() => locator);
+            locator.Expect(l => l.GetInstance<ICryptographer>()).Return(crypto);
         }
 
         [Test]
@@ -36,7 +39,7 @@ namespace Postback.Blog.Tests.Mapping
         }
 
         [Test]
-        public void UserIsMappedFromModelUsingConstructorWhenPasswordIsSet()
+        public void UserIsMappecFromModelUsingConstructorWhenPasswordIsSet()
         {
             var model = new UserEditModel {Name = "Jon", Email = "jon@doe.com", Password = "somepassword"};
             var user = Mapper.Map<UserEditModel, User>(model);

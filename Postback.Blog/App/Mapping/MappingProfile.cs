@@ -29,7 +29,8 @@ namespace Postback.Blog.App.Mapping
 
             CreateMap<Post, PostViewModel>()
                 .ForMember(p => p.Created, o => o.AddFormatter<ReadableDateFormatter>())
-                .ForMember(p => p.PublishFrom, o => o.AddFormatter<ReadableDateFormatter>());
+                .ForMember(p => p.PublishFrom, o => o.AddFormatter<ReadableDateFormatter>())
+                .ForMember(p => p.IsPublished, o => o.ResolveUsing<IsPublishedResolver>());
 
             CreateMap<PostEditModel, Post>()
                 .ForMember(p => p.Category, o => o.Ignore())

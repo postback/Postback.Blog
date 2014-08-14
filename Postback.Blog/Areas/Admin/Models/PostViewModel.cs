@@ -8,5 +8,6 @@
         public string Id { get; set; }
         public string Uri { get; set; }
         public bool Active { get; set; }
+        public bool IsPublished { get; set; }
     }
 }

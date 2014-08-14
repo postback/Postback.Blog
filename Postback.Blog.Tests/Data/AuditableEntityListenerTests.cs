@@ -10,7 +10,7 @@ using Rhino.Mocks;
 namespace Postback.Blog.Tests.Data
 {
     [TestFixture]
-    public class AuditableEntityListenerTests : RavenBaseTest
+    public class AuditableEntityListenerTests : BaseRavenTest
     {
         private EmbeddableDocumentStore Store { get; set; }
         private DateTime created = new DateTime(2011, 2, 13, 8, 55, 13);

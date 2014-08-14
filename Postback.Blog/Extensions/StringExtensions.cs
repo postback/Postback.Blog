@@ -10,7 +10,7 @@ public static class StringExtensions
         {
             return key;
         }
-        return key;// ObjectFactory.GetInstance<ISiteContext>().GetCurrentSite().Localize(key);
+        return key;
     }
 
     public static string Localize(this MvcHtmlString key)
@@ -43,10 +43,5 @@ public static class StringExtensions
         slug = slug.TrimEnd(charsToTrim).TrimStart(charsToTrim);
 
         return slug;
-    }
-
-    public static string ToSeparatedWords(this string value)
-    {
-        return Regex.Replace(value, "([A-Z][a-z])", " $1").Trim();
     }
 }

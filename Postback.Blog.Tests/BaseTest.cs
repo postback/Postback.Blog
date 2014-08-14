@@ -60,8 +60,7 @@ namespace Postback.Blog.Tests
 
         public void SetStructureMapDependencyResolver()
         {
-            var container = ObjectFactory.Container;
-            DependencyResolver.SetResolver(new StructureMapDependencyResolver(container));
+            DependencyResolver.SetResolver(new ServiceLocatorDependencyResolver());
         }
     }
 }

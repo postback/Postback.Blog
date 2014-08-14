@@ -132,6 +132,10 @@ footer a {
     text-decoration: underline;
 }
 
+.pagination li {
+    display: inline;
+}
+
 @media screen and (max-width:900px) {
     footer, time, nav{
         width: 95%;

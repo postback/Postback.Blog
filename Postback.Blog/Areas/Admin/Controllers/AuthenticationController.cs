@@ -6,6 +6,9 @@ using Postback.Blog.App.Messaging;
 using Postback.Blog.App.Services;
 using Postback.Blog.Areas.Admin.Models;
 using Postback.Blog.Models;
+using Raven.Client;
+using System.Linq;
+using Microsoft.Practices.ServiceLocation;
 
 namespace Postback.Blog.Areas.Admin.Controllers
 {
@@ -13,11 +16,11 @@ namespace Postback.Blog.Areas.Admin.Controllers
     public class AuthenticationController : Controller
     {
         private readonly ICryptographer crypto;
-        private readonly IPersistenceSession session;
+        private readonly IDocumentSession session;
         private readonly IAuth auth;
         private readonly IMessagingService messaging;
 
-        public AuthenticationController(ICryptographer cryptographer, IPersistenceSession session, IAuth auth, IMessagingService messaging)
+        public AuthenticationController(IDocumentSession session, ICryptographer cryptographer, IAuth auth, IMessagingService messaging)
         {
             crypto = cryptographer;
             this.session = session;
@@ -35,7 +38,7 @@ namespace Postback.Blog.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = session.FindOne<User>(u => u.Email == authentication.Email);
+                var user = session.Query<User>().SingleOrDefault(u => u.Email == authentication.Email);
                 if(user !=null && crypto.GetPasswordHash(authentication.Password,user.PasswordSalt) == user.PasswordHashed)
                 {
                    auth.DoAuth(user.Email, true);
@@ -66,7 +69,7 @@ namespace Postback.Blog.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult GetNewPassword(string email)
         {
-            var user = session.FindOne<User>(u => u.Email == email);
+            var user = session.Query<User>().SingleOrDefault(u => u.Email == email);
             if(user != null)
             {
                 var generatedPassword = crypto.CreatePassword(6);
@@ -77,7 +80,8 @@ namespace Postback.Blog.Areas.Admin.Controllers
                 var message = new NewPasswordMessage { User = user, NewPassword = generatedPassword };
                 messaging.Send(message);
 
-                session.Save(user);
+                session.Store(user);
+                session.SaveChanges();
 
                 return RedirectToAction("forgotpasswordconfirm");
             }

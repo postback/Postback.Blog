@@ -2,16 +2,17 @@
 using System.Web.Mvc;
 using Postback.Blog.App.Data;
 using Postback.Blog.Models;
+using Raven.Client;
 
 namespace Postback.Blog.App.Mvc
 {
     public class EntityModelBinder<TEntity> : DefaultModelBinder where TEntity : Entity,new ()
     {
-        readonly IPersistenceSession persistenceSession;
+        readonly IDocumentSession session;
 
-        public EntityModelBinder(IPersistenceSession persistenceSession)
+        public EntityModelBinder(IDocumentSession session)
         {
-            this.persistenceSession = persistenceSession;
+            this.session = session;
         }
 
         protected override object CreateModel(ControllerContext controllerContext, ModelBindingContext bindingContext, Type modelType)
@@ -21,7 +22,7 @@ namespace Postback.Blog.App.Mvc
                 var id = GetModelId(bindingContext);
                 if (!string.IsNullOrEmpty(id))
                 {
-                    return persistenceSession.Get<TEntity>(id);
+                    return session.Load<TEntity>(id);
                 }
             }
 

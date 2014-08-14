@@ -10,12 +10,28 @@ using Postback.Blog.Controllers;
 using Postback.Blog.Models;
 using Postback.Blog.Models.ViewModels;
 using Rhino.Mocks;
+using Raven.Client;
+using Postback.Blog.Tests.Data;
 
 namespace Postback.Blog.Tests.Controllers
 {
     [TestFixture]
-    public class PostControllerTest : BaseTest
+    public class PostControllerTest : BaseRavenControllerTests
     {
+        private IDocumentStore Store { get; set; }
+
+        [TestFixtureSetUp]
+        public void SetUp()
+        {
+            Store = NewStore();
+        }
+
+        [TestFixtureTearDown]
+        public void TearDown()
+        {
+            Store.Dispose();
+        }
+
         [Test]
         public void IndexShouldReturnView()
         {
@@ -23,9 +39,11 @@ namespace Postback.Blog.Tests.Controllers
             ServiceLocator.SetLocatorProvider(() => locator);
             locator.Expect(l => l.GetInstance<ISystemClock>()).Return(M<ISystemClock>());
 
-            var posts = new List<Post> { new Post() { Active = true }, new Post() { Active = false }, new Post() { Active = true, PublishFrom = new DateTime(9,8,7)} };
-            var session = M<IPersistenceSession>();
-            session.Expect(s => s.All<Post>()).Return(posts.AsQueryable()).Repeat.Twice();
+            SetupData(s => s.Store(new Post() { Active = true }));
+            SetupData(s => s.Store(new Post() { Active = false }));
+            SetupData(s => s.Store(new Post() { Active = true, PublishFrom = new DateTime(9,8,7)} ));
+
+            var session = Store.OpenSession();
             var controller = new PostController(session);
 
             var result = controller.Index(null) as ViewResult;
@@ -36,7 +54,6 @@ namespace Postback.Blog.Tests.Controllers
             model.Count.ShouldEqual(1);
             Assert.That(result.ViewBag.Paging, Is.Not.Null);
             Assert.That(result.ViewBag.Paging, Is.InstanceOf(typeof(PagingView)));
-            session.VerifyAllExpectations();
             locator.VerifyAllExpectations();
         }
     }

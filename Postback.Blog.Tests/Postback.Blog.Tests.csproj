@@ -11,9 +11,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Postback.Blog.Tests</RootNamespace>
     <AssemblyName>Postback.Blog.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -23,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -31,6 +33,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AutoMapper, Version=2.1.267.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
@@ -131,11 +134,11 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.ApplicationServices" />
-    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Abstractions" />
-    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
-    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
     <Reference Include="WebActivator, Version=1.5.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -143,28 +146,30 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\StructuremapMvc.cs" />
     <Compile Include="Attributes\AppInitTests.cs" />
     <Compile Include="Bootstrap\BaseHttpModuleTests.cs" />
     <Compile Include="Bootstrap\BootStrapTests.cs" />
+    <Compile Include="CommandProcessor\HandlerFactoryTests.cs" />
     <Compile Include="CommandProcessor\SimpleMessagingServiceTests.cs" />
     <Compile Include="Controllers\AppInitControllerAttributeTests.cs" />
     <Compile Include="Controllers\AuthenticationControllerTests.cs" />
     <Compile Include="BaseTest.cs" />
+    <Compile Include="Controllers\BaseRavenControllerTests.cs" />
     <Compile Include="Controllers\UserControllerTest.cs" />
     <Compile Include="Controllers\SetupControllerTest.cs" />
     <Compile Include="Controllers\DashboardControllerTests.cs" />
     <Compile Include="Data\AuditableEntityListenerTests.cs" />
-    <Compile Include="Data\RavenBaseTest.cs" />
-    <Compile Include="Data\RavenSessionTests.cs" />
+    <Compile Include="Data\BaseRavenTest.cs" />
+    <Compile Include="Data\PostIndexTests.cs" />
+    <Compile Include="Data\WaitForNonStaleResults.cs" />
     <Compile Include="DependencyResolution\IoC.cs" />
-    <Compile Include="DependencyResolution\SmDependencyResolver.cs" />
     <Compile Include="DI\DependencyRegistrationTests.cs" />
     <Compile Include="DI\StructureMapServiceLocatorTests.cs" />
     <Compile Include="Extensions\DateTimeExtensionsTests.cs" />
     <Compile Include="Extensions\MvcExtensionsTests.cs" />
     <Compile Include="Extensions\StringExtensionTests.cs" />
     <Compile Include="Extensions\TypeExtensionTests.cs" />
+    <Compile Include="Extensions\UrlHelperExtensionsTests.cs" />
     <Compile Include="Mapping\PostMappingtests.cs" />
     <Compile Include="Mapping\UserMappingtests.cs" />
     <Compile Include="Models\AuditedEntityTests.cs" />
@@ -193,7 +198,12 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Start\" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

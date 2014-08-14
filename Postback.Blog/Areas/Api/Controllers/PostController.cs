@@ -3,21 +3,23 @@ using System.Web.Mvc;
 
 using Postback.Blog.App.Data;
 using Postback.Blog.Models;
+using Raven.Client;
+using Microsoft.Practices.ServiceLocation;
 
 namespace Postback.Blog.Areas.Api.Controllers
 {
     public class PostController : Controller
     {
-        private IPersistenceSession session;
+        private IDocumentSession session;
 
-        public PostController(IPersistenceSession session)
+        public PostController(IDocumentSession session)
         {
             this.session = session;
         }
 
         public JsonResult IsUnique(string title, string id)
         {
-            var collection = session.All<Post>().AsQueryable().Where(u => u.Title == title);
+            var collection = session.Query<Post>().Where(u => u.Title == title);
             if (collection.Count() == 0 || collection.First().Id == id)
             {
                 return Json(true, JsonRequestBehavior.AllowGet);

@@ -1,12 +1,12 @@
 ﻿@if(HttpContext.Current.User.Identity.IsAuthenticated)
 {
-    <nav>
-        <ul id="menu">
-            <li>@Html.ActionLink("Dashboard", "index", "dashboard")</li>
-            <li>@Html.ActionLink("Posts", "index", "post")</li>
-            <li>@Html.ActionLink("Users", "index", "user")</li>
-            <li class="website"><a href="/">Website</a></li>
-            <li class="signout">@Html.ActionLink("Sign-out", "signout", "authentication")</li>
-        </ul>
-    </nav>
-    }
+<nav>
+    <ul class="nav nav-tabs">
+        <li @(Url.Is("dashboard","index") ? "class=active" : "")>@Html.ActionLink("Dashboard", "index", "dashboard")</li>
+        <li @(Url.Is("post","index") ? "class=active" : "")>@Html.ActionLink("Posts", "index", "post")</li>
+        <li @(Url.Is("user","index") ? "class=active" : "")>@Html.ActionLink("Users", "index", "user")</li>
+        <li ><a href="/">Website</a></li>
+        <li class="signout">@Html.ActionLink("Sign-out", "signout", "authentication")</li>
+    </ul>
+</nav>
+}

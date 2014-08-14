@@ -4,6 +4,10 @@ using Postback.Blog.App.Messaging;
 using Postback.Blog.App.Services;
 using Postback.Blog.Models;
 using StructureMap;
+using Rhino.Mocks;
+using Microsoft.Practices.ServiceLocation;
+using System;
+using System.Collections.Generic;
 
 namespace Postback.Blog.Tests.CommandProcessor
 {
@@ -13,16 +17,8 @@ namespace Postback.Blog.Tests.CommandProcessor
         [Test]
         public void TheSimpleMessagingServiceShouldProcessThisMessage()
         {
-            ObjectFactory.Configure(cfg => cfg.Scan(x =>
-                                                        {
-                                                            x.TheCallingAssembly();
-                                                            x.AssemblyContainingType<User>();
-                                                            x.ConnectImplementationsToTypesClosing(typeof(Handler<>));
-
-                                                        })
-                );
-
-            var factory = new HandlerFactory();
+            var factory = M<IHandlerFactory>();
+            factory.Expect(f => f.GetHandlers(typeof(TestMessage))).Return(new List<IHandler>{new TestMessageCommandHandler()});
             var service = new SimpleMessagingService(factory);
             var result = service.Send(new TestMessage {Message = "foo"});
 
@@ -30,6 +26,8 @@ namespace Postback.Blog.Tests.CommandProcessor
             Assert.That(result.Messages,Has.Count.EqualTo(0));
             Assert.That(result.ReturnItems[typeof(TestMessage)],Is.Not.Null);
             Assert.That(((TestMessage)result.ReturnItems[typeof(TestMessage)]).Message, Is.EqualTo("foo bar"));
+
+            factory.VerifyAllExpectations();
         }
 
         public class TestMessage : IMessage
